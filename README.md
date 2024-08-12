@@ -1,23 +1,53 @@
-# Nextra Docs Template 
+# 🐾 Animu-Docs: Anima Unity Documents 📚
 
-This is a template for creating documentation with [Nextra](https://nextra.site).
+![Anima Unity Logo](link_to_logo_image.png)
 
-[**Live Demo →**](https://nextra-docs-template.vercel.app)
+## 🌟 Selamat Datang di Animu-Docs!
 
-[![](.github/screenshot.png)](https://nextra-docs-template.vercel.app)
+Animu-Docs adalah pusat dokumentasi resmi untuk **Anima Unity**, platform revolusioner yang berfokus pada pemberdayaan hewan! 🐶🐱🐰
 
-## Quick Start
+### 🦁 Apa itu Anima Unity?
 
-Click the button to clone this repository and deploy it on Vercel:
+Anima Unity adalah platform inovatif yang:
+- 🏥 Mendukung kesejahteraan hewan
+- 🎓 Mendidik masyarakat tentang hak-hak hewan
+- 🤝 Menghubungkan relawan dengan organisasi perlindungan hewan
+- 🌿 Mempromosikan gaya hidup ramah hewan
 
-[![](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra-docs-template&showOptionalTeamCreation=false)
+## 📖 Apa yang Ada di Dalam?
 
-## Local Development
+- 🚀 **Panduan Memulai**: Langkah-langkah cepat untuk bergabung dengan gerakan ini
+- 🛠️ **Tutorial**: Dari dasar hingga aksi lanjutan untuk membantu hewan
+- 📘 **Resource Guide**: Daftar lengkap organisasi dan sumber daya terkait hewan
+- 💡 **Tips & Trik**: Cara efektif untuk memberdayakan dan melindungi hewan
+- 🎯 **Studi Kasus**: Kisah inspiratif tentang perubahan positif untuk hewan
 
-First, run `pnpm i` to install the dependencies.
+## 🚀 Mulai Sekarang!
 
-Then, run `pnpm dev` to start the development server and visit localhost:3000.
+1. 📥 Clone repository ini
+2. 📖 Baca `getting-started.md`
+3. 🐾 Mulai perjalanan Anda dalam memberdayakan hewan!
 
-## License
+## 🤝 Kontribusi
 
-This project is licensed under the MIT License.
+Kami menyambut kontribusi! Jika Anda memiliki ide atau penambahan:
+
+1. 🍴 Fork repository ini
+2. 🛠️ Buat branch fitur Anda (`git checkout -b ide-pemberdayaan-baru`)
+3. 💾 Commit perubahan Anda (`git commit -am 'Menambahkan ide pemberdayaan hewan'`)
+4. 📤 Push ke branch (`git push origin ide-pemberdayaan-baru`)
+5. 🎉 Buat Pull Request baru
+
+## 📬 Dukungan
+
+Punya pertanyaan? Ingin terlibat lebih jauh?
+- 📧 Email kami di: support@animaunity.org
+- 💬 Bergabung dengan [komunitas online](https://community.animaunity.org) kami
+
+## 📜 Lisensi
+
+Animu-Docs dilisensikan di bawah [Creative Commons Attribution 4.0 International License](LICENSE.md).
+
+---
+
+Dibuat dengan ❤️ oleh komunitas Anima Unity untuk hewan di seluruh dunia 🌍🐾
