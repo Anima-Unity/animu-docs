@@ -1,7 +1,7 @@
 {
-  "name": "nextra-docs-template",
+  "name": "Animu Docs",
   "version": "0.0.1",
-  "description": "Nextra docs template",
+  "description": "Anima Unity Documentation",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -9,9 +9,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shuding/nextra-docs-template.git"
+    "url": "https://github.com/Anima-Unity"
   },
-  "author": "Shu Ding <g@shud.in>",
+  "author": "Afauzi",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/shuding/nextra-docs-template/issues"
