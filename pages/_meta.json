@@ -1,11 +1,9 @@
 {
   "index": "Introduction",
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
-  "about": {
-    "title": "About",
-    "type": "page"
-  },
+  "getting-started": "Memulai",
+  "features": "Fitur-Fitur",
+  "faq": "FAQ",
+  "support": "Dukungan",
   "contact": {
     "title": "Contact ↗",
     "type": "page",

@@ -1,0 +1,26 @@
+{
+  "index": {
+    "title": "Ikhtisar Fitur",
+    "type": "page"
+  },
+  "anibuddies": {
+    "title": "AniBuddies",
+    "type": "page"
+  },
+  "anishop": {
+    "title": "AniShop",
+    "type": "page"
+  },
+  "anihealth": {
+    "title": "AniHealth",
+    "type": "page"
+  },
+  "anicare": {
+    "title": "AniCare",
+    "type": "page"
+  },
+  "anifun": {
+    "title": "AniFun",
+    "type": "page"
+  }
+}
