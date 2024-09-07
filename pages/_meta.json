@@ -10,6 +10,12 @@
     "href": "https://x.com/feelemptyz?t=YB2JSeEpY96B3UWlDW_T6g&s=09",
     "newWindow": true
   },
+  "API Docs": {
+     "title": "API Docs",
+     "type": "page",
+     "href": "#",
+     "newWindow": true
+  },
   "blog": {
      "title": "Blog",
      "type": "page",
