@@ -39,7 +39,7 @@ const config: DocsThemeConfig = {
       <meta property="og:title" content="Anima Unity" />
       <meta property="og:description" content="Anima Unity Documentation" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content="https://ibb.co.com/GW4cyxz" />
+<meta name="twitter:image" content="https://th.bing.com/th/id/OIG3.vRfWyHvEASc.hagrdxki?dpr=2,8&pid=ImgDetMain" />
     </>
   )
 }
