@@ -1,6 +1,6 @@
 # 🐾 Animu-Docs: Anima Unity Documents 📚
 
-![Anima Unity Logo](link_to_logo_image.png)
+![Anima Unity Logo](public/images/logotxt.png)
 
 ## 🌟 Selamat Datang di Animu-Docs!
 
