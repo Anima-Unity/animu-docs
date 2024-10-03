@@ -6,7 +6,7 @@
 
 Animu-Docs adalah pusat dokumentasi resmi untuk **Anima Unity**, platform revolusioner yang berfokus pada pemberdayaan hewan! 🐶🐱🐰
 
-### 🦁 Apa itu Anima Unity?
+### 🦁 Apa sih Anima Unity?
 
 Anima Unity adalah platform inovatif yang:
 - 🏥 Mendukung kesejahteraan hewan
@@ -20,29 +20,29 @@ Anima Unity adalah platform inovatif yang:
 - 🛠️ **Tutorial**: Dari dasar hingga aksi lanjutan untuk membantu hewan
 - 📘 **Resource Guide**: Daftar lengkap organisasi dan sumber daya terkait hewan
 - 💡 **Tips & Trik**: Cara efektif untuk memberdayakan dan melindungi hewan
-- 🎯 **Studi Kasus**: Kisah inspiratif tentang perubahan positif untuk hewan
+- 🎯 **Studi Kasus**: Cerita inspiratif tentang perubahan positif untuk hewan
 
 ## 🚀 Mulai Sekarang!
 
 1. 📥 Clone repository ini
 2. 📖 Baca `getting-started.md`
-3. 🐾 Mulai perjalanan Anda dalam memberdayakan hewan!
+3. 🐾 Ayo mulai perjalananmu untuk memberdayakan hewan!
 
 ## 🤝 Kontribusi
 
-Kami menyambut kontribusi! Jika Anda memiliki ide atau penambahan:
+Kami sangat terbuka untuk kontribusi! Jika ada ide atau tambahan dari kamu:
 
 1. 🍴 Fork repository ini
-2. 🛠️ Buat branch fitur Anda (`git checkout -b ide-pemberdayaan-baru`)
-3. 💾 Commit perubahan Anda (`git commit -am 'Menambahkan ide pemberdayaan hewan'`)
+2. 🛠️ Buat branch baru untuk fitur kamu (`git checkout -b ide-pemberdayaan-baru`)
+3. 💾 Commit perubahanmu (`git commit -am 'Menambahkan ide pemberdayaan hewan'`)
 4. 📤 Push ke branch (`git push origin ide-pemberdayaan-baru`)
 5. 🎉 Buat Pull Request baru
 
 ## 📬 Dukungan
 
-Punya pertanyaan? Ingin terlibat lebih jauh?
+Punya pertanyaan? Mau terlibat lebih jauh?
 - 📧 Email kami di: support@animaunity.org
-- 💬 Bergabung dengan [komunitas online](https://community.animaunity.org) kami
+- 💬 Bergabung dengan [Discord](https://discord.com/invite/69yr49vZ) dan [Telegram](https://t.me/animaunityhub) kami
 
 ## 📜 Lisensi
 
