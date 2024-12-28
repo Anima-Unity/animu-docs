@@ -40,8 +40,8 @@ const config: DocsThemeConfig = {
     text: (
       <span>
         {new Date().getFullYear()} ©{' '}
-        <a href="https://nextra.site" target="_blank">
-          Anima Unity
+        <a href="https://github.com/Anima-Unity" target="_blank">
+          Anima Unity Docs
         </a>
         .
       </span>

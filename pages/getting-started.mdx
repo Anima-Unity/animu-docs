@@ -1,108 +1,185 @@
-# 🐾 Yuk, Gas Mulai Petualangan di Anima Unity! 🚀
+import { Callout } from 'nextra/components'
 
-Hey, Sobat Anabul! Siap-siap blast off ke dunia digital paling asyik buat para pawrent! 📱✨ Anima Unity udah nunggu kamu nih. Simak cara seru mulai journey kamu bareng kita yuk!
+# Getting Started with Anima Unity
 
-> 💡 **Pro Tip:** Jangan lupa siapin foto kece kamu & si anabul sebelum daftar ya! 📸
+Welcome to the Anima Unity Developer Documentation! This guide will walk you through the necessary steps to get started with the project and set up your development environment.
 
-## 🎮 Level Up: Cara Mulai Main
+## Prerequisites
 
-### 1️⃣ Download Anima Unity, Gampang Banget!
+Before diving into development, make sure you have the following tools and knowledge:
 
-Pilih aja sesuai hape kamu:
+- **Programming Languages**: Knowledge of **JavaScript** (Node.js) or **Python** and/or **Rust** for backend services, **React** or **Vue.js** for frontend development, **Kotlin** or **Swift** for mobile.
+- **Database**: Familiarity with **SQL** or **NoSQL** databases (e.g., PostgreSQL, MongoDB).
+- **Version Control**: Understanding of **Git** and experience with version control systems like GitHub or GitLab.
+- **API Integration**: Experience working with **RESTful APIs**.
+- **Docker**: Basic understanding of **Docker** for local environment setup and containerization (optional but recommended).
 
-**iPhone User? Gas ke App Store:**
-1. Buka App Store
-2. Ketik "Anima Unity" di search bar
-3. Pencet "Get" atau ikon download
-4. Tunggu bentar, jadi deh! 🎉
+## Clone the Repository
 
-**Android Squad? Yuk ke Play Store:**
-1. Buka Google Play Store
-2. Cari "Anima Unity"
-3. Tap "Install"
-4. Santai aja, bentar lagi kelar kok! 😎
+The first step to contributing to Anima Unity is cloning the project repository.
 
-**Lebih Suka di Laptop? Bisa!**
-Kunjungi aja [www.animaunity.com](https://www.animaunity.com) terus klik "Daftar" di pojok kanan atas.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/anima-unity/repository.git
+   ```
+2. Navigate into the project directory:
+   ```bash
+   cd anima-unity
+   ```
+   
+## Install Dependencies
 
-### 2️⃣ Bikin Akun, Simple Banget!
+Anima Unity uses Node.js for the backend and React for the frontend. To install the necessary dependencies, follow these steps:
 
-1. Buka app Anima Unity
-2. Tap "Daftar" atau "Bikin Akun Baru"
-3. Pilih cara daftar paling enak:
-   - Email ✅
-   - Akun Google ❌
-   - Akun Facebook ❌
-4. Ikutin aja step-nya, gampang kok!
-5. Verifikasi pake email atau SMS ❌, done! 🔥
+1. Install Node.js (v16.x or above) if you haven't already:
+Download and install it from the [official Node.js website](https://nodejs.org/en).
 
-### 3️⃣ Isi Profil, Biar Makin Keren!
+2. Install project dependencies:
 
-Isi nih:
-- Nama lengkap (bisa pake nama panggilan juga sih 😉)
-- Foto profil (yang paling glow up ya!)
-- Tanggal lahir
-- Lokasi
-- Bio singkat (kalo mau flexing dikit boleh lah ya)
+```npm install```
 
-> ℹ️ **FYI:** Makin lengkap profil, makin gampang dapat temen baru sesama pawrent lho!
+This will install both the backend and frontend dependencies listed in the ```package.json``` file.
 
-### 4️⃣ Saatnya Pamer Si Anabul!
+3. If you're using Docker, you can build and run the project in a containerized environment. Make sure Docker is installed on your machine, and run the following command:
 
-1. Tap "Tambah Anabul" di dashboard
-2. Isi data si bulu:
-   - Nama (yang unik dong!)
-   - Jenis hewan (kucing? anjing? iguana? 🦎)
-   - Ras
-   - Tanggal lahir
-   - Foto (yang paling gemes ya!)
-   - Kebiasaan unik (opsional, tapi kalo ada lucu sih)
-3. Punya lebih dari satu anabul? Masukin aja semua, gapapa!
+```docker-compose up --build```
 
-### 5️⃣ Jelajah Fitur, Seru Abis!
+## Set Up Environment Variables
 
-**AniBuddies:**
-- Share momen lucu anabul
-- Stalking akun pawrent lain 👀
-- Join grup sesuai selera
+Anima Unity requires some environment variables to be set up for local development. These variables define things like API keys, database connections, and other configuration settings.
 
-**AniShop:**
-- Window shopping barang anabul
-- Isi keranjang (kalo ga dibeli gapapa, namanya juga window shopping 😂)
-- Kalo jadi beli, gas checkout!
+1. Create a ```.env``` file in the root directory of the project:
 
-**AniHealth:**
-- Booking konsul online sama dokter hewan
-- Catat riwayat kesehatan anabul
-- Baca-baca artikel kesehatan (sambil ngemil boleh)
+```cp .env.example```
 
-**AniCare:**
-- Cari tempat grooming terdekat
-- Booking pet hotel buat anabul
-- Kasih review, biar yang lain tau
+2. Open the ```.env``` file and update the values with your local environment configuration:
 
-**AniFun:**
-- Main game seru tentang hewan
-- Ikutan kuis harian, siapa tau menang
-- Nonton video lucu & informatif
+```DATABASE_URL``` - Database connection string (PostgreSQL, MongoDB, etc.)
 
-### 6️⃣ Follow Akun Resmi, Biar Update Terus!
+```API_KEY``` - Your API key for third-party services.
 
-Jangan lupa follow:
-- @AnimaUnityOfficial ❌
-- @AniHealthTips ❌
-- @AniShopDeals ❌
+```JWT_SECRET``` - A secret key for JSON Web Tokens (JWT).
 
-## 🌟 Tips Jitu Biar Makin Asik di Anima Unity
+Other necessary environment variables based on your local setup.
 
-1. **Jadi Seleb AniBuddies:** Rajin-rajin posting, like, komen. Siapa tau viral! 🚀
-2. **Ikutan Challenge:** Ada tantangan mingguan nih, hadiahnya kece-kece!
-3. **Jadi Pinter:** Cek terus konten edukatif di AniFun, biar makin jago ngurus anabul.
-4. **Kasih Masukan:** Ada ide buat bikin app lebih keren? Langsung aja kasih tau lewat fitur feedback!
-5. **Ajak Geng:** Invite squad pecinta hewan kamu, dapet bonus referral lho!
+## Run the Project Locally
 
-⚠️ **Inget ya:** Jaga privasi kamu & si anabul. Jangan share info sensitif di platform, okay?
+Once everything is set up, you're ready to run the project locally.
 
-Udah siap jadi pawrent paling hits se-Anima Unity? Yuk mulai petualanganmu sekarang! Kalo bingung atau ada masalah, langsung aja cek [halaman bantuan](/support) atau chat tim support 24/7 di app. Mereka baik-baik kok, ga gigit! 😉
+1. Start the development server:
 
-Let's go, Anima Unity squad! 🎉🐾
+```bash copy
+npm run dev
+```
+
+This will start both the frontend and backend servers, and you can visit the app in your browser at [http://localhost:3000](http://localhost:3000).
+
+## Explore the Codebase
+Here are some key directories and files you should know about as you start working with Anima Unity:
+
+```/src```: Main source code for the project, including frontend and backend services.
+
+```/frontend```: React-based frontend application.
+
+```/backend```: Node.js backend services (API, authentication, data handling).
+
+```/docs```: Documentation files for the project.
+
+## Test the API
+To make sure your local development setup is working, test the API endpoints using a tool like [Postman](https://www.postman.com/) or [Insomnia](https://insomnia.rest/).
+
+1. The API documentation is available in the [API Documentation](/) Anima Unity.
+
+
+2. Start by testing basic GET requests, such as retrieving a list of pets or user profiles.
+
+
+3. Make sure to check authentication methods (e.g., JWT) when testing protected routes.
+
+## Contributing to Anima Unity
+
+If you'd like to contribute to the Anima Unity project, follow these steps:
+
+1. Fork the repository: Create your own fork of the repository.
+
+
+2. Create a feature branch: Use the following command to create a new branch for your feature or bug fix:
+
+```bash copy
+git checkout -b feature/your-feature
+```
+
+
+3. Make changes: Implement the feature or fix the issue you're working on.
+
+
+4. Commit your changes: Commit your changes with clear, descriptive commit messages.
+
+```bash copy
+git commit -m "Description of the changes"
+```
+
+
+5. Push your changes: Push your branch to your fork:
+
+```bash copy
+git push origin feature/your-feature
+```
+
+
+6. Create a Pull Request: Open a pull request to merge your changes into the main repository.
+
+## Troubleshooting
+
+If you run into any issues during setup or development, here are some tips:
+
+Double-check your environment variables and make sure they are correctly set.
+
+Ensure you have all dependencies installed by running
+```bash copy
+npm install
+```
+again.
+
+Check the Docker configuration if you're using containers and make sure the environment is set up properly.
+
+Look for common issues in the repository’s [Issues](#) section for solutions.
+
+---
+<Callout emoji="🚀">
+  That’s it! You’re now ready to start developing with Anima Unity. If you have any questions, feel free to reach out to the community or check out the other sections of the documentation.
+</Callout>
+
+### Explanation:
+
+1. **Prerequisites**:
+   - Lists the tools and knowledge required to get started with Anima Unity development (Node.js, Git, Docker, etc.).
+   
+2. **Clone the Repository**:
+   - Walks the developer through cloning the repository to their local machine.
+
+3. **Install Dependencies**:
+   - Explains how to install the necessary dependencies for both backend and frontend.
+   - Includes the option to use Docker for containerized setup.
+
+4. **Set Up Environment Variables**:
+   - Explains how to configure environment variables necessary for local development, such as database connections and API keys.
+
+5. **Run the Project Locally**:
+   - Instructions for running the project on the local machine, including both the development server and Docker instructions.
+
+6. **Explore the Codebase**:
+   - A brief guide on the main directories and files in the codebase, helping developers navigate the project.
+
+7. **Test the API**:
+   - Directs developers to the API documentation and encourages testing API endpoints using tools like Postman.
+
+8. **Contributing to Anima Unity**:
+   - A simple guide for contributing to the project, including forking the repo, creating feature branches, and submitting pull requests.
+
+9. **Troubleshooting**:
+   - Provides some common troubleshooting tips for developers if they run into issues.
+
+<Callout emoji="🌈">
+    This guide is designed to help developers quickly get up to speed with Anima Unity’s development environment and contribute to the project efficiently.
+</Callout>

@@ -1,10 +1,6 @@
 {
   "index": "Introduction",
-  "about": "About Us",
-  "getting-started": "Memulai",
-  "features": "Fitur-Fitur",
-  "faq": "FAQ",
-  "support": "Dukungan",
+  "getting-started": "Getting Started",
   "contact": {
     "title": "Contact ↗",
     "type": "page",
