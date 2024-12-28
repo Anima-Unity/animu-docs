@@ -53,21 +53,98 @@ const config: DocsThemeConfig = {
     const url =
       'https://animu-docs.vercel.app' +
       (defaultLocale === locale ? asPath : `/${locale}${asPath}`)
+    const siteName = 'Anima Unity Documentation'
+    const defaultDescription = 'Official documentation for Anima Unity - Complete guide for development documentation'
+    const defaultImage = 'https://animu-docs.vercel.app/og-image.png' // Pastikan untuk membuat og-image.png
+    
  
     return (
       <>
+        {/* Primary Meta Tags */}
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="title" content={frontMatter.title || siteName} />
+        <meta name="description" content={frontMatter.description || defaultDescription} />
+        <meta name="keywords" content={frontMatter.keywords || 'anima unity, development, documentation'} />
+        <meta name="author" content="Afauzi" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href={url} />
+
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content={siteName} />
         <meta property="og:url" content={url} />
-        <meta property="og:title" content={frontMatter.title || 'Anima Unity Docs'} />
-        <meta
-          property="og:description"
-          content={frontMatter.description || 'The docs site Anima Unity'}
+        <meta property="og:title" content={frontMatter.title || siteName} />
+        <meta property="og:description" content={frontMatter.description || defaultDescription} />
+        <meta property="og:image" content={frontMatter.image || defaultImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content={locale || 'en'} />
+        
+        {/* Twitter */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@AnimaUnity" /> {/* Ganti dengan Twitter handle yang benar */}
+        <meta name="twitter:url" content={url} />
+        <meta name="twitter:title" content={frontMatter.title || siteName} />
+        <meta name="twitter:description" content={frontMatter.description || defaultDescription} />
+        <meta name="twitter:image" content={frontMatter.image || defaultImage} />
+        
+        {/* PWA Tags */}
+        <meta name="application-name" content={siteName} />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content={siteName} />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="theme-color" content="#000000" />
+
+        {/* Favicons */}
+        <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
+        <link rel="manifest" href="/images/favicon/site.webmanifest" />
+
+        {/* Alternate Languages */}
+        <link rel="alternate" href={url} hrefLang="x-default" />
+        <link rel="alternate" href={url} hrefLang="en" />
+        {/* Tambahkan bahasa lain jika ada */}
+
+        {/* JSON-LD Schema */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": siteName,
+              "url": url,
+              "description": defaultDescription,
+              "publisher": {
+                "@type": "Organization",
+                "name": "Anima Unity",
+                "logo": {
+                  "@type": "ImageObject",
+                  "url": "https://animu-docs.vercel.app/logo.png"
+                }
+              }
+            })
+          }}
         />
+
       </>
     )
   },
   useNextSeoProps() {
+    const { frontMatter } = useConfig()
     return {
-      titleTemplate: '%s – Animu Docs'
+      titleTemplate: '%s – Anima Unity Docs',
+      defaultTitle: 'Anima Unity Documentation',
+      description: frontMatter.description || 'Official documentation for Anima Unity',
+      openGraph: {
+        type: 'website',
+        site_name: 'Anima Unity Docs'
+      }
     }
   }
 }

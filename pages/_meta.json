@@ -1,23 +1,66 @@
 {
-  "index": "Introduction",
-  "getting-started": "Getting Started",
-  "api-docs": "API Docs Blueprint",
-  "contact": {
-    "title": "Contact ↗",
-    "type": "page",
-    "href": "https://x.com/feelemptyz?t=YB2JSeEpY96B3UWlDW_T6g&s=09",
-    "newWindow": true
-  },
-  "API Docs": {
-     "title": "API Docs",
-     "type": "page",
-     "href": "#",
-     "newWindow": true
-  },
-  "blog": {
-     "title": "Blog",
-     "type": "page",
-     "href": "https://codegiggles.vercel.app/",
-     "newWindow": true
-  }
+ "index": {
+   "title": "Introduction", 
+   "type": "page",
+   "theme": {
+     "breadcrumb": true,
+     "sidebar": true,
+     "toc": true,
+     "pagination": true
+   }
+ },
+ "getting-started": {
+   "title": "Getting Started",
+   "theme": {
+     "breadcrumb": true,
+     "sidebar": true, 
+     "toc": true,
+     "pagination": true
+   }
+ },
+ "api-docs": {
+   "title": "API Docs Blueprint",
+   "theme": {
+     "breadcrumb": true,
+     "sidebar": true,
+     "toc": true,
+     "pagination": true
+   }
+ },
+ "contact": {
+   "title": "Contact ↗",
+   "type": "page",
+   "href": "https://x.com/feelemptyz?t=YB2JSeEpY96B3UWlDW_T6g&s=09",
+   "newWindow": true,
+   "theme": {
+     "breadcrumb": false,
+     "sidebar": true
+   }
+ },
+ "API Docs": {
+   "title": "API Docs",
+   "type": "page", 
+   "href": "#",
+   "newWindow": true,
+   "theme": {
+     "breadcrumb": false,
+     "sidebar": true
+   }
+ },
+ "blog": {
+   "title": "Blog",
+   "type": "page",
+   "href": "https://codegiggles.vercel.app/",
+   "newWindow": true,
+   "theme": {
+     "breadcrumb": false,
+     "sidebar": true
+   }
+ },
+ "*": {
+   "theme": {
+     "footer": true,
+     "layout": "default"
+   }
+ }
 }
