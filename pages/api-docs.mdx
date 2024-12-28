@@ -1,0 +1,273 @@
+import { Callout } from 'nextra/components'
+
+# Anima Unity API Documentation Blueprint
+
+Anima Unity provides a powerful RESTful API to interact with the platform programmatically. This API allows developers to manage users, pets, veterinary services, products in the marketplace, and much more. Below, you'll find an overview of the API, authentication methods, available endpoints, and examples for using them.
+
+## Authentication
+
+Anima Unity uses **OAuth 2.0** for secure authentication. To use the API, you must first obtain an access token. This token must be included in the headers of all requests that require authentication.
+
+### How to Authenticate
+
+1. **OAuth2.0 Flow**: You must register your application with the platform to receive a **client ID** and **client secret**.
+2. **Token Request**: Use these credentials to request an access token from the authorization server.
+
+   Example request to get a token:
+   ```bash
+   POST /oauth/token
+   Content-Type: application/x-www-form-urlencoded
+
+   client_id=your-client-id
+   client_secret=your-client-secret
+   grant_type=client_credentials
+   ```
+
+3. Access Token: The response will contain an access token that you can use to authenticate subsequent API requests.
+
+
+
+Example response:
+
+```json
+{
+  "access_token": "your-access-token",
+  "token_type": "bearer",
+  "expires_in": 3600
+}
+```
+
+You can then include the access token in your API request headers:
+
+Authorization: Bearer your-access-token
+
+## Available Endpoints
+
+The API consists of several key endpoints organized by functionality, including user management, pet tracking, marketplace, and veterinary services.
+
+1. User Management
+
+Create User
+```bash
+POST /api/users
+Create a new user profile.
+```
+
+Request Body:
+
+```json
+{
+  "username": "john_doe",
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "role": "user"
+}
+```
+
+Response:
+
+```json
+{
+  "id": "1234",
+  "username": "john_doe",
+  "email": "john.doe@example.com",
+  "role": "user"
+}
+```
+
+Get User Details
+```bash
+GET /api/users/{user_id}
+Retrieve details of a specific user by ID.
+```
+
+Update User
+```bash
+PUT /api/users/{user_id}
+Update user information such as email or password.
+```
+
+
+
+---
+
+2. Pet Management
+
+Create Pet Profile
+```bash
+POST /api/pets
+Create a new pet profile for an animal.
+```
+
+Request Body:
+```json
+{
+  "name": "Max",
+  "species": "Dog",
+  "breed": "Labrador",
+  "age": 3,
+  "healthStatus": "Healthy",
+  "owner_id": "1234"
+}
+```
+
+Response:
+```json
+{
+  "id": "5678",
+  "name": "Max",
+  "species": "Dog",
+  "breed": "Labrador",
+  "age": 3,
+  "healthStatus": "Healthy",
+  "owner_id": "1234"
+}
+```
+Get Pet Details
+```bash
+GET /api/pets/{pet_id}
+Retrieve detailed information about a specific pet.
+```
+
+
+---
+
+3. Marketplace
+
+Create Product Listing
+```bash
+POST /api/products
+Add a new product to the marketplace.
+```
+
+Request Body:
+```
+{
+  "name": "Pet Food",
+  "category": "Food",
+  "price": 20.00,
+  "description": "High-quality pet food for dogs."
+}
+```
+Response:
+```json
+{
+  "id": "9876",
+  "name": "Pet Food",
+  "category": "Food",
+  "price": 20.00,
+  "description": "High-quality pet food for dogs."
+}
+```
+Get Product List
+```bash
+GET /api/products
+Fetch a list of all products available in the marketplace.
+```
+
+Get Product Details
+```bash
+GET /api/products/{product_id}
+Retrieve information about a specific product.
+```
+
+
+
+---
+
+4. Veterinary Services
+
+Schedule Vet Appointment
+```bash
+POST /api/appointments
+Schedule an online veterinary appointment for a pet.
+```
+
+Request Body:
+```json
+{
+  "pet_id": "5678",
+  "vet_id": "4321",
+  "appointment_date": "2024-12-30T10:00:00Z"
+}
+```
+Response:
+```json
+{
+  "id": "1112",
+  "pet_id": "5678",
+  "vet_id": "4321",
+  "appointment_date": "2024-12-30T10:00:00Z",
+  "status": "Scheduled"
+}
+```
+Get Appointment Details
+```bash
+GET /api/appointments/{appointment_id}
+Retrieve details about a specific veterinary appointment.
+```
+ 
+## Error Handling
+
+When making requests to the API, you may encounter different error statuses. Here are some common errors:
+
+<Callout type="error">
+  **400 Bad Request**: The request is malformed or missing required fields.
+</Callout>
+
+<Callout type="error">
+  **401 Unauthorized**: The access token is missing or invalid.
+</Callout>
+
+<Callout type="error">
+  **404 Not Found**: The requested resource could not be found.
+</Callout>
+
+<Callout type="error">
+  **500 Internal Server Error**: An unexpected error occurred on the server.
+</Callout>
+
+
+Example Error Response:
+```json
+{
+  "error": "Unauthorized",
+  "message": "The access token is missing or invalid."
+}
+```
+
+## Rate Limiting
+
+The API is rate-limited to ensure fair usage and prevent abuse. Requests exceeding the rate limit will result in a 429 Too Many Requests error.
+
+The current rate limit is 1000 requests per hour.
+
+After reaching the limit, you will need to wait before making further requests.
+
+
+## Conclusion
+
+The Anima Unity API provides extensive functionality for managing users, pets, marketplace products, and veterinary services. By using the authentication methods and endpoints outlined above, developers can integrate their applications with Anima Unity seamlessly.
+
+For any additional information, or if you need help with specific endpoints, please check out the API Reference or contact our support team.
+
+
+---
+
+### Explanation:
+
+1. Authentication: It explains how to authenticate using OAuth 2.0, including how to obtain an access token that is used in every API request.
+
+
+2. Available Endpoints: It provides a list of endpoints that developers can use to manage users, pets, marketplace products, and veterinary services.
+
+
+3. Error Handling: It explains how the API handles errors and provides example error responses.
+
+
+4. Rate Limiting: It provides information about the limitation on the number of API requests to prevent abuse.
+
+
+This documentation gives developers a clear understanding of how to interact with the Anima Unity API, providing all the information needed to effectively use the various endpoints.
+
+
