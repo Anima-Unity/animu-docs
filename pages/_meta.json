@@ -27,6 +27,7 @@
      "pagination": true
    }
  },
+ "sdk-docs": "SDK Documentation Blueprint",
  "contact": {
    "title": "Contact ↗",
    "type": "page",
