@@ -37,7 +37,15 @@ const config: DocsThemeConfig = {
   },
   docsRepositoryBase: 'https://github.com/shuding/nextra-docs-template',
   footer: {
-    text: 'Anima Unity Docs',
+    text: (
+      <span>
+        {new Date().getFullYear()} ©{' '}
+        <a href="https://nextra.site" target="_blank">
+          Anima Unity
+        </a>
+        .
+      </span>
+    )
   },
   head: (
     <>
