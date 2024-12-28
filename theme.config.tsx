@@ -55,7 +55,7 @@ const config: DocsThemeConfig = {
       (defaultLocale === locale ? asPath : `/${locale}${asPath}`)
     const siteName = 'Anima Unity Documentation'
     const defaultDescription = 'Official documentation for Anima Unity - Complete guide for development documentation'
-    const defaultImage = 'https://animu-docs.vercel.app/og-image.png' // Pastikan untuk membuat og-image.png
+    const defaultImage = 'https://animu-docs.vercel.app/logotxt.png' // Pastikan untuk membuat og-image.png
     
  
     return (
