@@ -47,15 +47,24 @@ const config: DocsThemeConfig = {
       </span>
     )
   },
-  head: (
-    <>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta property="og:title" content="Anima Unity" />
-      <meta property="og:description" content="Anima Unity Documentation" />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" content="https://th.bing.com/th/id/OIG3.vRfWyHvEASc.hagrdxki?dpr=2,8&pid=ImgDetMain" />
-    </>
-  ),
+  head: () => {
+    const { asPath, defaultLocale, locale } = useRouter()
+    const { frontMatter } = useConfig()
+    const url =
+      'https://animu-docs.vercel.app' +
+      (defaultLocale === locale ? asPath : `/${locale}${asPath}`)
+ 
+    return (
+      <>
+        <meta property="og:url" content={url} />
+        <meta property="og:title" content={frontMatter.title || 'Anima Unity Docs'} />
+        <meta
+          property="og:description"
+          content={frontMatter.description || 'The docs site Anima Unity'}
+        />
+      </>
+    )
+  },
   useNextSeoProps() {
     return {
       titleTemplate: '%s – Animu Docs'
