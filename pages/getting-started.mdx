@@ -346,67 +346,553 @@ cp .env.example .env.local
 
 </Steps>
 
-## 📁 Microservices Project Structure
+# 📁 Improved Microservices Project Structure
+
+## Current Analysis & Recommendations
+
+### ✅ Strengths of Current Structure
+- Clear service separation with domain-driven design
+- Good use of different technologies per service requirements
+- Infrastructure as code approach with Kubernetes
+- Documentation and shared components consideration
+
+### 🔧 Areas for Improvement
+
+## Project Structure
 
 ```plaintext
 anima-unity-microservices/
-├── services/
-│   ├── animaid-service/           # Digital identity service
-│   │   ├── src/main/java/         # Spring Boot application
-│   │   ├── src/main/resources/    # Configuration files
+├── 📁 services/
+│   ├── 🏥 animaid-service/           # Digital identity service
+│   │   ├── src/main/java/
+│   │   │   └── com/anima/identity/
+│   │   │       ├── config/           # Configuration classes
+│   │   │       ├── controller/       # REST controllers
+│   │   │       ├── service/          # Business logic
+│   │   │       ├── repository/       # Data access layer
+│   │   │       ├── model/            # Entity models
+│   │   │       ├── dto/              # Data transfer objects
+│   │   │       └── exception/        # Custom exceptions
+│   │   ├── src/main/resources/
+│   │   │   ├── application.yml       # Main config
+│   │   │   ├── application-dev.yml   # Dev environment config
+│   │   │   ├── application-prod.yml  # Production config
+│   │   │   └── db/migration/         # Database migrations
+│   │   ├── src/test/java/            # Unit & integration tests
 │   │   ├── Dockerfile
-│   │   └── pom.xml
-│   ├── animavoice-service/        # Rescue reporting service
-│   │   ├── src/                   # NestJS application
+│   │   ├── .dockerignore
+│   │   ├── pom.xml
+│   │   ├── README.md                 # Service-specific documentation
+│   │   └── .env.example              # Environment variables template
+│   │
+│   ├── 🗣️ animavoice-service/        # Rescue reporting service
+│   │   ├── src/
+│   │   │   ├── common/               # Shared utilities
+│   │   │   │   ├── decorators/
+│   │   │   │   ├── filters/
+│   │   │   │   ├── guards/
+│   │   │   │   ├── interceptors/
+│   │   │   │   └── pipes/
+│   │   │   ├── config/               # Configuration modules
+│   │   │   ├── modules/              # Feature modules
+│   │   │   │   ├── rescue/
+│   │   │   │   ├── reports/
+│   │   │   │   └── notifications/
+│   │   │   ├── shared/               # Shared services
+│   │   │   └── database/             # Database configuration
+│   │   ├── test/                     # E2E tests
+│   │   ├── dist/                     # Build output
 │   │   ├── Dockerfile
-│   │   └── package.json
-│   ├── adopthub-service/          # Adoption matching service
-│   │   ├── app/                   # FastAPI application
-│   │   ├── requirements.txt
-│   │   └── Dockerfile
-│   ├── pawhelp-service/           # Donation service
-│   │   ├── src/main/java/         # Spring Boot application
+│   │   ├── .dockerignore
+│   │   ├── package.json
+│   │   ├── tsconfig.json
+│   │   ├── nest-cli.json
+│   │   ├── README.md
+│   │   └── .env.example
+│   │
+│   ├── 🏠 adopthub-service/          # Adoption matching service
+│   │   ├── app/
+│   │   │   ├── api/                  # API routes
+│   │   │   │   ├── v1/               # API version 1
+│   │   │   │   └── dependencies.py   # Dependency injection
+│   │   │   ├── core/                 # Core functionality
+│   │   │   │   ├── config.py         # Settings configuration
+│   │   │   │   ├── security.py       # Authentication & authorization
+│   │   │   │   └── database.py       # Database connection
+│   │   │   ├── models/               # Pydantic models
+│   │   │   ├── schemas/              # Request/response schemas
+│   │   │   ├── services/             # Business logic
+│   │   │   ├── repositories/         # Data access layer
+│   │   │   └── utils/                # Utility functions
+│   │   ├── tests/                    # Test files
+│   │   ├── alembic/                  # Database migrations
+│   │   ├── requirements/
+│   │   │   ├── base.txt              # Base requirements
+│   │   │   ├── dev.txt               # Development requirements
+│   │   │   └── prod.txt              # Production requirements
 │   │   ├── Dockerfile
-│   │   └── pom.xml
-│   ├── animaclinic-service/       # Health monitoring service
-│   │   ├── src/                   # Express.js application
-│   │   ├── Dockerfile
-│   │   └── package.json
-│   ├── animatrack-service/        # GPS tracking service
-│   │   ├── src/                   # Rust/Actix application
+│   │   ├── .dockerignore
+│   │   ├── pyproject.toml
+│   │   ├── README.md
+│   │   └── .env.example
+│   │
+│   ├── 💰 pawhelp-service/           # Donation service
+│   │   └── [Similar structure to animaid-service]
+│   │
+│   ├── 🏥 animaclinic-service/       # Health monitoring service
+│   │   └── [Similar structure to animavoice-service]
+│   │
+│   ├── 📍 animatrack-service/        # GPS tracking service
+│   │   ├── src/
+│   │   │   ├── handlers/             # HTTP handlers
+│   │   │   ├── models/               # Data models
+│   │   │   ├── services/             # Business logic
+│   │   │   ├── repositories/         # Data access
+│   │   │   ├── config/               # Configuration
+│   │   │   ├── middleware/           # Custom middleware
+│   │   │   └── utils/                # Utility functions
+│   │   ├── tests/                    # Unit tests
+│   │   ├── migrations/               # Database migrations
 │   │   ├── Cargo.toml
-│   │   └── Dockerfile
-│   └── community-service/         # Social features service
-│       ├── cmd/                   # Go application entry point
-│       ├── internal/              # Internal packages
+│   │   ├── Dockerfile
+│   │   ├── .dockerignore
+│   │   ├── README.md
+│   │   └── .env.example
+│   │
+│   └── 👥 community-service/         # Social features service
+│       ├── cmd/
+│       │   └── server/               # Application entry point
+│       ├── internal/
+│       │   ├── config/               # Configuration
+│       │   ├── handlers/             # HTTP handlers
+│       │   ├── models/               # Data models
+│       │   ├── services/             # Business logic
+│       │   ├── repositories/         # Data access
+│       │   ├── middleware/           # Custom middleware
+│       │   └── utils/                # Utility functions
+│       ├── pkg/                      # Public packages
+│       ├── migrations/               # Database migrations
+│       ├── tests/                    # Test files
 │       ├── go.mod
-│       └── Dockerfile
-├── infrastructure/
-│   ├── api-gateway/               # Kong/Traefik configuration
-│   ├── service-discovery/         # Consul configuration
-│   ├── message-broker/            # RabbitMQ/Kafka setup
-│   ├── monitoring/                # Prometheus & Grafana
-│   └── observability/             # Jaeger tracing setup
-├── k8s/
-│   ├── infrastructure/            # Kubernetes infrastructure manifests
-│   ├── services/                  # Service deployment manifests
-│   ├── ingress/                   # Ingress configurations
-│   └── secrets/                   # Secret management
-├── docker-compose.yml             # Local development setup
-├── docker-compose.infrastructure.yml
-├── scripts/
-│   ├── deploy.sh                  # Deployment scripts
-│   ├── health-check.sh            # Health monitoring
-│   └── generate-service-configs.sh
-├── docs/                          # Service documentation
-│   ├── api/                       # API documentation
-│   ├── architecture/              # Architecture diagrams
-│   └── deployment/                # Deployment guides
-└── shared/
-    ├── proto/                     # Protocol buffer definitions
-    ├── events/                    # Event schemas
-    └── libraries/                 # Shared libraries
+│       ├── go.sum
+│       ├── Dockerfile
+│       ├── .dockerignore
+│       ├── README.md
+│       └── .env.example
+│
+├── 🏗️ infrastructure/
+│   ├── api-gateway/
+│   │   ├── kong/                     # Kong configurations
+│   │   │   ├── kong.yml
+│   │   │   └── plugins/
+│   │   ├── traefik/                  # Traefik configurations
+│   │   │   └── traefik.yml
+│   │   └── README.md
+│   │
+│   ├── service-discovery/
+│   │   ├── consul/
+│   │   │   ├── config.json
+│   │   │   └── policies/
+│   │   └── README.md
+│   │
+│   ├── message-broker/
+│   │   ├── rabbitmq/
+│   │   │   ├── rabbitmq.conf
+│   │   │   ├── definitions.json      # Queue definitions
+│   │   │   └── plugins/
+│   │   ├── kafka/
+│   │   │   ├── server.properties
+│   │   │   └── topics/
+│   │   └── README.md
+│   │
+│   ├── databases/
+│   │   ├── postgresql/
+│   │   │   ├── init-scripts/
+│   │   │   └── config/
+│   │   ├── mongodb/
+│   │   │   └── init-scripts/
+│   │   ├── redis/
+│   │   │   └── redis.conf
+│   │   └── README.md
+│   │
+│   ├── monitoring/
+│   │   ├── prometheus/
+│   │   │   ├── prometheus.yml
+│   │   │   ├── rules/
+│   │   │   └── targets/
+│   │   ├── grafana/
+│   │   │   ├── dashboards/
+│   │   │   ├── datasources/
+│   │   │   └── provisioning/
+│   │   ├── alertmanager/
+│   │   │   └── alertmanager.yml
+│   │   └── README.md
+│   │
+│   ├── observability/
+│   │   ├── jaeger/
+│   │   │   └── jaeger.yml
+│   │   ├── zipkin/
+│   │   │   └── zipkin.yml
+│   │   └── otel/                     # OpenTelemetry configs
+│   │       └── otel-collector.yml
+│   │
+│   ├── security/
+│   │   ├── vault/                    # HashiCorp Vault
+│   │   │   ├── config.hcl
+│   │   │   └── policies/
+│   │   ├── keycloak/                 # Identity provider
+│   │   │   └── realm-config.json
+│   │   └── certificates/             # SSL certificates
+│   │
+│   └── load-balancer/
+│       ├── nginx/
+│       │   └── nginx.conf
+│       └── haproxy/
+│           └── haproxy.cfg
+│
+├── ☸️ k8s/
+│   ├── base/                         # Kustomize base configurations
+│   │   ├── services/
+│   │   ├── deployments/
+│   │   ├── configmaps/
+│   │   └── secrets/
+│   │
+│   ├── overlays/                     # Environment-specific overlays
+│   │   ├── development/
+│   │   │   ├── kustomization.yaml
+│   │   │   └── patches/
+│   │   ├── staging/
+│   │   │   ├── kustomization.yaml
+│   │   │   └── patches/
+│   │   └── production/
+│   │       ├── kustomization.yaml
+│   │       └── patches/
+│   │
+│   ├── infrastructure/               # Infrastructure components
+│   │   ├── namespace.yaml
+│   │   ├── rbac/
+│   │   ├── network-policies/
+│   │   ├── persistent-volumes/
+│   │   └── storage-classes/
+│   │
+│   ├── ingress/
+│   │   ├── ingress-controller.yaml
+│   │   ├── certificates/
+│   │   └── routes/
+│   │
+│   ├── monitoring/
+│   │   ├── prometheus-operator/
+│   │   ├── service-monitors/
+│   │   └── pod-monitors/
+│   │
+│   └── helm-charts/                  # Custom Helm charts
+│       ├── anima-services/
+│       └── anima-infrastructure/
+│
+├── 🐳 docker/
+│   ├── docker-compose.yml            # Main development setup
+│   ├── docker-compose.override.yml   # Local development overrides
+│   ├── docker-compose.staging.yml    # Staging environment
+│   ├── docker-compose.prod.yml       # Production environment
+│   ├── docker-compose.monitoring.yml # Monitoring stack
+│   └── docker-compose.infrastructure.yml
+│
+├── 🔧 tools/
+│   ├── scripts/
+│   │   ├── setup/
+│   │   │   ├── install-dependencies.sh
+│   │   │   ├── setup-development.sh
+│   │   │   └── setup-minikube.sh
+│   │   ├── build/
+│   │   │   ├── build-all.sh
+│   │   │   ├── build-service.sh
+│   │   │   └── tag-images.sh
+│   │   ├── deploy/
+│   │   │   ├── deploy.sh
+│   │   │   ├── rollback.sh
+│   │   │   └── blue-green-deploy.sh
+│   │   ├── test/
+│   │   │   ├── run-tests.sh
+│   │   │   ├── integration-tests.sh
+│   │   │   └── load-tests.sh
+│   │   ├── monitoring/
+│   │   │   ├── health-check.sh
+│   │   │   ├── log-aggregation.sh
+│   │   │   └── metrics-collection.sh
+│   │   └── utility/
+│   │       ├── cleanup.sh
+│   │       ├── backup.sh
+│   │       └── restore.sh
+│   │
+│   ├── cli/                          # Custom CLI tools
+│   │   ├── anima-cli/                # Project-specific CLI
+│   │   └── generators/               # Code generators
+│   │
+│   ├── templates/                    # Service templates
+│   │   ├── spring-boot-service/
+│   │   ├── nestjs-service/
+│   │   ├── fastapi-service/
+│   │   ├── rust-service/
+│   │   └── go-service/
+│   │
+│   └── config/
+│       ├── eslint/                   # Shared linting configs
+│       ├── prettier/
+│       ├── sonarqube/
+│       └── security/                 # Security scanning configs
+│
+├── 📚 docs/
+│   ├── architecture/
+│   │   ├── overview.md
+│   │   ├── service-mesh.md
+│   │   ├── data-flow.md
+│   │   ├── security-architecture.md
+│   │   └── diagrams/                 # Architecture diagrams
+│   │       ├── c4-context.puml
+│   │       ├── c4-container.puml
+│   │       └── sequence-diagrams/
+│   │
+│   ├── api/
+│   │   ├── openapi/                  # OpenAPI specifications
+│   │   │   ├── animaid-api.yaml
+│   │   │   ├── animavoice-api.yaml
+│   │   │   └── [other-services].yaml
+│   │   ├── graphql/                  # GraphQL schemas
+│   │   └── postman/                  # Postman collections
+│   │
+│   ├── deployment/
+│   │   ├── local-development.md
+│   │   ├── kubernetes-deployment.md
+│   │   ├── docker-deployment.md
+│   │   ├── production-checklist.md
+│   │   └── troubleshooting.md
+│   │
+│   ├── development/
+│   │   ├── coding-standards.md
+│   │   ├── git-workflow.md
+│   │   ├── testing-strategy.md
+│   │   ├── debugging-guide.md
+│   │   └── performance-optimization.md
+│   │
+│   ├── operations/
+│   │   ├── monitoring-runbook.md
+│   │   ├── incident-response.md
+│   │   ├── backup-recovery.md
+│   │   └── scaling-guide.md
+│   │
+│   └── adr/                          # Architecture Decision Records
+│       ├── 001-microservices-architecture.md
+│       ├── 002-database-per-service.md
+│       └── 003-event-driven-communication.md
+│
+├── 🔄 shared/
+│   ├── proto/                        # Protocol buffer definitions
+│   │   ├── common/
+│   │   │   ├── types.proto
+│   │   │   └── errors.proto
+│   │   ├── events/
+│   │   │   ├── user-events.proto
+│   │   │   ├── adoption-events.proto
+│   │   │   └── rescue-events.proto
+│   │   └── services/
+│   │       ├── identity.proto
+│   │       ├── rescue.proto
+│   │       └── adoption.proto
+│   │
+│   ├── events/                       # Event schemas
+│   │   ├── avro/                     # Avro schemas
+│   │   ├── json-schema/              # JSON schemas
+│   │   └── registry/                 # Schema registry configs
+│   │
+│   ├── libraries/                    # Shared libraries
+│   │   ├── java/
+│   │   │   └── anima-common/         # Common Java utilities
+│   │   ├── typescript/
+│   │   │   └── anima-types/          # TypeScript type definitions
+│   │   ├── python/
+│   │   │   └── anima-utils/          # Python utilities
+│   │   ├── rust/
+│   │   │   └── anima-core/           # Rust common crate
+│   │   └── go/
+│   │       └── anima-shared/         # Go shared modules
+│   │
+│   ├── contracts/                    # Consumer-driven contracts
+│   │   ├── pact/                     # Pact contracts
+│   │   └── spring-cloud-contract/    # Spring Cloud contracts
+│   │
+│   └── config/                       # Shared configurations
+│       ├── database/
+│       ├── messaging/
+│       └── security/
+│
+├── 🧪 tests/
+│   ├── integration/                  # Cross-service integration tests
+│   │   ├── user-journey/
+│   │   ├── api-compatibility/
+│   │   └── contract-tests/
+│   │
+│   ├── e2e/                         # End-to-end tests
+│   │   ├── cypress/
+│   │   ├── playwright/
+│   │   └── postman/
+│   │
+│   ├── performance/                  # Performance tests
+│   │   ├── k6/
+│   │   ├── jmeter/
+│   │   └── artillery/
+│   │
+│   ├── chaos/                       # Chaos engineering tests
+│   │   ├── chaos-monkey/
+│   │   └── litmus/
+│   │
+│   └── security/                    # Security tests
+│       ├── owasp-zap/
+│       └── vulnerability-scans/
+│
+├── 🚀 ci-cd/
+│   ├── github-actions/              # GitHub Actions workflows
+│   │   ├── .github/workflows/
+│   │   └── actions/                 # Custom actions
+│   │
+│   ├── jenkins/                     # Jenkins pipeline configs
+│   │   ├── Jenkinsfile
+│   │   └── shared-libraries/
+│   │
+│   ├── gitlab-ci/                   # GitLab CI configurations
+│   │   └── .gitlab-ci.yml
+│   │
+│   ├── tekton/                      # Tekton pipelines
+│   │   ├── tasks/
+│   │   ├── pipelines/
+│   │   └── triggers/
+│   │
+│   └── argo/                        # ArgoCD configurations
+│       ├── applications/
+│       └── app-of-apps/
+│
+├── 📊 monitoring/
+│   ├── dashboards/                  # Monitoring dashboards
+│   │   ├── grafana/
+│   │   ├── kibana/
+│   │   └── custom/
+│   │
+│   ├── alerts/                      # Alert configurations
+│   │   ├── prometheus-rules/
+│   │   ├── alertmanager/
+│   │   └── pagerduty/
+│   │
+│   └── health-checks/               # Health check endpoints
+│       └── custom-checks/
+│
+├── 🔐 security/
+│   ├── policies/                    # Security policies
+│   │   ├── opa/                     # Open Policy Agent
+│   │   └── falco/                   # Runtime security
+│   │
+│   ├── scanning/                    # Security scanning configs
+│   │   ├── trivy/
+│   │   ├── snyk/
+│   │   └── sonarqube/
+│   │
+│   └── certificates/                # Certificate management
+│       ├── cert-manager/
+│       └── custom-cas/
+│
+├── 📝 Configuration Files
+├── .gitignore
+├── .gitattributes
+├── .editorconfig
+├── .pre-commit-config.yaml          # Pre-commit hooks
+├── .github/                         # GitHub specific configs
+│   ├── ISSUE_TEMPLATE/
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   ├── CODEOWNERS
+│   └── dependabot.yml
+├── .vscode/                         # VS Code workspace settings
+│   ├── settings.json
+│   ├── extensions.json
+│   └── launch.json
+├── Makefile                         # Development shortcuts
+├── docker-compose.yml               # Main development setup
+├── skaffold.yaml                    # Skaffold configuration
+├── tilt-file                        # Tilt configuration
+├── README.md                        # Project overview
+├── CONTRIBUTING.md                  # Contribution guidelines
+├── LICENSE
+├── CHANGELOG.md
+└── .env.example                     # Environment variables template
 ```
+
+## 🔧 Key Improvements Made
+
+### 1. **Enhanced Service Structure**
+- **Consistent Internal Organization**: Each service now follows language-specific best practices
+- **Configuration Management**: Environment-specific configs (dev, staging, prod)
+- **Database Migrations**: Proper migration management for each service
+- **Testing Structure**: Dedicated test directories with clear separation
+
+### 2. **Infrastructure Organization**
+- **Database Management**: Dedicated database configurations and init scripts
+- **Security Layer**: Added vault, certificates, and security policies
+- **Load Balancing**: Multiple load balancer options (Nginx, HAProxy)
+- **Environment Separation**: Kustomize overlays for different environments
+
+### 3. **Comprehensive Tooling**
+- **CLI Tools**: Custom project CLI and code generators
+- **Templates**: Service templates for consistent new service creation
+- **Build & Deploy Scripts**: Comprehensive automation scripts
+- **Development Tools**: Linting, formatting, and security scanning configs
+
+### 4. **Enhanced Documentation**
+- **Architecture Decision Records (ADR)**: Document important architectural decisions
+- **API Documentation**: OpenAPI specs, GraphQL schemas, Postman collections
+- **Operational Runbooks**: Monitoring, incident response, scaling guides
+- **Development Guidelines**: Coding standards, git workflow, testing strategy
+
+### 5. **Testing Strategy**
+- **Multi-Level Testing**: Unit, integration, E2E, performance, chaos, security
+- **Contract Testing**: Consumer-driven contracts with Pact
+- **Cross-Service Testing**: Integration tests across service boundaries
+
+### 6. **CI/CD & DevOps**
+- **Multiple CI/CD Options**: Support for GitHub Actions, Jenkins, GitLab CI, Tekton
+- **GitOps**: ArgoCD configurations for deployment
+- **Development Tools**: Skaffold, Tilt for local development
+
+### 7. **Monitoring & Observability**
+- **Comprehensive Monitoring**: Dashboards, alerts, health checks
+- **Security Monitoring**: Runtime security with Falco, policy enforcement with OPA
+- **Performance Monitoring**: Custom metrics and performance dashboards
+
+### 8. **Developer Experience**
+- **IDE Support**: VS Code workspace settings
+- **Development Shortcuts**: Makefile with common commands
+- **Pre-commit Hooks**: Code quality enforcement
+- **Environment Management**: Better environment variable management
+
+## 🚀 Migration Strategy
+
+### Phase 1: Core Structure
+1. Reorganize existing services according to new structure
+2. Add missing configuration files (.env.example, README.md per service)
+3. Implement proper testing structure
+
+### Phase 2: Infrastructure Enhancement
+1. Add security layer (Vault, certificates)
+2. Implement database management structure
+3. Add monitoring and alerting configurations
+
+### Phase 3: Tooling & Automation
+1. Create custom CLI tools and generators
+2. Implement comprehensive CI/CD pipelines
+3. Add development and operational documentation
+
+### Phase 4: Advanced Features
+1. Implement chaos engineering tests
+2. Add contract testing
+3. Enhance security scanning and policies
+
+This improved structure provides better organization, enhanced developer experience, comprehensive testing, robust security, and operational excellence while maintaining the flexibility to scale as your microservices ecosystem grows.
 
 ## 🔌 Inter-Service Communication
 
