@@ -1,279 +1,903 @@
----
-title: API Docs Blueprint,
-description: Complete API documentation and blueprints for Anima Unity integration,
-keywords: api docs, blueprint, integration, endpoints, authentication
----
+# Anima Unity API Documentation - Advanced Integration Blueprint
 
-import { Callout } from 'nextra/components'
+## Overview
 
-# Anima Unity API Documentation Blueprint
+Anima Unity provides a comprehensive RESTful API ecosystem designed for seamless integration with third-party applications, mobile platforms, and enterprise systems. This documentation covers advanced authentication patterns, complex endpoint interactions, real-time capabilities, and enterprise-grade features.
 
-Anima Unity provides a powerful RESTful API to interact with the platform programmatically. This API allows developers to manage users, pets, veterinary services, products in the marketplace, and much more. Below, you'll find an overview of the API, authentication methods, available endpoints, and examples for using them.
+## Architecture & Design Principles
 
-## Authentication
+### API Versioning Strategy
+```
+Base URL: https://api.animaunity.com/v2/
+Versioning: Header-based and URL-based support
+Accept: application/vnd.animaunity.v2+json
+```
 
-Anima Unity uses **OAuth 2.0** for secure authentication. To use the API, you must first obtain an access token. This token must be included in the headers of all requests that require authentication.
+### Multi-Tenant Architecture
+The API supports multi-tenant operations with organization-scoped resources and hierarchical access control.
 
-### How to Authenticate
+### Microservices Endpoints
+- **User Service**: `/v2/users`
+- **Pet Management**: `/v2/pets` 
+- **Marketplace Engine**: `/v2/marketplace`
+- **Veterinary Platform**: `/v2/veterinary`
+- **Analytics Engine**: `/v2/analytics`
+- **Notification Hub**: `/v2/notifications`
+- **Real-time Events**: `/v2/events` (WebSocket)
 
-1. **OAuth2.0 Flow**: You must register your application with the platform to receive a **client ID** and **client secret**.
-2. **Token Request**: Use these credentials to request an access token from the authorization server.
+## Advanced Authentication Framework
 
-   Example request to get a token:
-   ```bash
-   POST /oauth/token
-   Content-Type: application/x-www-form-urlencoded
+### Multi-Factor Authentication Flow
 
-   client_id=your-client-id
-   client_secret=your-client-secret
-   grant_type=client_credentials
-   ```
+#### Primary OAuth 2.0 + PKCE Flow
+```http
+POST /oauth/v2/authorize
+Content-Type: application/json
 
-3. Access Token: The response will contain an access token that you can use to authenticate subsequent API requests.
+{
+  "client_id": "your-client-id",
+  "response_type": "code",
+  "redirect_uri": "https://yourapp.com/callback",
+  "scope": "pets:read pets:write marketplace:admin",
+  "state": "random-state-string",
+  "code_challenge": "base64url-encoded-challenge",
+  "code_challenge_method": "S256"
+}
+```
 
+#### JWT Token Structure
+```json
+{
+  "access_token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "refresh_token": "rt_abc123...",
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "scope": "pets:read pets:write marketplace:admin",
+  "organization_id": "org_12345",
+  "user_roles": ["pet_owner", "marketplace_vendor"]
+}
+```
 
+### API Key Authentication (Server-to-Server)
+```http
+GET /v2/pets
+X-API-Key: ak_live_1234567890abcdef
+X-Organization-ID: org_12345
+Authorization: Bearer eyJhbGci...
+```
 
-Example response:
+### Rate Limiting & Quotas
+```http
+X-RateLimit-Limit: 10000
+X-RateLimit-Remaining: 9750
+X-RateLimit-Reset: 1640995200
+X-RateLimit-Window: 3600
+X-Quota-Limit: 1000000
+X-Quota-Used: 45230
+```
+
+## Core API Resources
+
+### User Management (Enhanced)
+
+#### Complex User Creation with Profile Validation
+```http
+POST /v2/users
+Content-Type: application/json
+Authorization: Bearer {token}
+
+{
+  "user": {
+    "username": "john_doe_2024",
+    "email": "john.doe@veterinary-clinic.com",
+    "phone": "+1-555-0123",
+    "password": "SecureP@ssw0rd123",
+    "profile": {
+      "first_name": "John",
+      "last_name": "Doe",
+      "date_of_birth": "1985-06-15",
+      "address": {
+        "street": "123 Pet Lover St",
+        "city": "Animal City",
+        "state": "CA",
+        "zip_code": "90210",
+        "country": "US",
+        "coordinates": {
+          "latitude": 34.0522,
+          "longitude": -118.2437
+        }
+      },
+      "professional_info": {
+        "license_number": "VET-12345",
+        "specializations": ["small_animals", "emergency_care"],
+        "clinic_affiliation": "Happy Paws Clinic"
+      }
+    },
+    "preferences": {
+      "notification_settings": {
+        "email_notifications": true,
+        "sms_notifications": false,
+        "push_notifications": true,
+        "marketing_communications": false
+      },
+      "privacy_settings": {
+        "profile_visibility": "public",
+        "show_contact_info": false,
+        "allow_pet_matching": true
+      }
+    },
+    "roles": ["veterinarian", "pet_owner"],
+    "organization_id": "org_veterinary_clinic_001"
+  },
+  "verification": {
+    "require_email_verification": true,
+    "require_phone_verification": true,
+    "license_verification_required": true
+  }
+}
+```
+
+#### Response with Enhanced Metadata
+```json
+{
+  "user": {
+    "id": "usr_2024_001234",
+    "username": "john_doe_2024",
+    "email": "john.doe@veterinary-clinic.com",
+    "status": "pending_verification",
+    "profile": {
+      "first_name": "John",
+      "last_name": "Doe",
+      "avatar_url": "https://cdn.animaunity.com/avatars/usr_2024_001234.jpg",
+      "professional_verification_status": "pending",
+      "trust_score": 0,
+      "member_since": "2024-01-15T10:30:00Z"
+    },
+    "roles": ["veterinarian", "pet_owner"],
+    "permissions": [
+      "pets:create",
+      "pets:read_own",
+      "veterinary:consultations",
+      "marketplace:basic_access"
+    ],
+    "organization": {
+      "id": "org_veterinary_clinic_001",
+      "name": "Happy Paws Clinic",
+      "type": "veterinary_clinic"
+    }
+  },
+  "verification_steps": [
+    {
+      "type": "email_verification",
+      "status": "sent",
+      "expires_at": "2024-01-16T10:30:00Z"
+    },
+    {
+      "type": "professional_license",
+      "status": "pending_review",
+      "review_time_estimate": "2-3 business days"
+    }
+  ],
+  "next_steps": [
+    "Complete email verification",
+    "Upload professional license documentation",
+    "Set up payment methods for marketplace transactions"
+  ]
+}
+```
+
+### Advanced Pet Management
+
+#### Comprehensive Pet Profile Creation
+```http
+POST /v2/pets
+Content-Type: application/json
+Authorization: Bearer {token}
+
+{
+  "pet": {
+    "name": "Max Thunder",
+    "species": "canine",
+    "breed": {
+      "primary": "Labrador Retriever",
+      "secondary": "Golden Retriever",
+      "mix_percentage": 75
+    },
+    "physical_characteristics": {
+      "age": {
+        "years": 3,
+        "months": 6,
+        "birth_date": "2020-07-15"
+      },
+      "weight": {
+        "current": 32.5,
+        "unit": "kg",
+        "ideal_range": {
+          "min": 30,
+          "max": 35
+        }
+      },
+      "height": 58.5,
+      "color_pattern": "Golden with white markings",
+      "distinctive_features": ["scar on left hind leg", "blue collar"]
+    },
+    "health_profile": {
+      "overall_status": "healthy",
+      "chronic_conditions": [],
+      "allergies": ["chicken", "dust_mites"],
+      "medications": [
+        {
+          "name": "Apoquel",
+          "dosage": "16mg",
+          "frequency": "twice_daily",
+          "prescribed_by": "vet_dr_smith_001",
+          "start_date": "2024-01-01",
+          "end_date": null
+        }
+      ],
+      "vaccination_history": [
+        {
+          "vaccine": "DHPP",
+          "date_administered": "2023-07-15",
+          "next_due": "2024-07-15",
+          "veterinarian": "vet_dr_smith_001"
+        }
+      ],
+      "medical_history": [
+        {
+          "condition": "Skin Allergy",
+          "diagnosed_date": "2023-12-15",
+          "treatment": "Medication and dietary changes",
+          "status": "ongoing_treatment"
+        }
+      ]
+    },
+    "behavioral_profile": {
+      "temperament": ["friendly", "energetic", "intelligent"],
+      "training_level": "intermediate",
+      "social_behaviors": {
+        "with_humans": "excellent",
+        "with_dogs": "good",
+        "with_cats": "cautious",
+        "with_children": "excellent"
+      },
+      "special_needs": ["requires_daily_exercise", "sensitive_to_loud_noises"]
+    },
+    "identification": {
+      "microchip_id": "956000012345678",
+      "registration_number": "AKC-LR-2020-001234",
+      "tags": [
+        {
+          "type": "collar_tag",
+          "identifier": "MAX-2024",
+          "contact_info": "+1-555-0123"
+        }
+      ]
+    },
+    "insurance_info": {
+      "provider": "Healthy Paws Pet Insurance",
+      "policy_number": "HP-2024-001234",
+      "coverage_type": "comprehensive",
+      "deductible": 500
+    },
+    "owner_id": "usr_2024_001234",
+    "emergency_contacts": [
+      {
+        "name": "Jane Doe",
+        "relationship": "co-owner",
+        "phone": "+1-555-0124",
+        "email": "jane.doe@email.com"
+      }
+    ],
+    "location_data": {
+      "home_address": "123 Pet Lover St, Animal City, CA 90210",
+      "regular_locations": [
+        {
+          "type": "veterinary_clinic",
+          "name": "Happy Paws Clinic",
+          "address": "456 Vet Street, Animal City, CA 90210"
+        },
+        {
+          "type": "dog_park",
+          "name": "Central Dog Park",
+          "address": "789 Park Ave, Animal City, CA 90210"
+        }
+      ]
+    }
+  },
+  "options": {
+    "generate_qr_code": true,
+    "setup_gps_tracking": true,
+    "enable_health_monitoring": true,
+    "create_insurance_integration": true
+  }
+}
+```
+
+#### Enhanced Pet Profile Response
+```json
+{
+  "pet": {
+    "id": "pet_max_thunder_001",
+    "slug": "max-thunder-labrador-2024",
+    "name": "Max Thunder",
+    "species": "canine",
+    "profile_completeness": 95,
+    "health_score": 87,
+    "last_updated": "2024-01-15T14:30:00Z",
+    "status": "active",
+    "digital_assets": {
+      "qr_code": "https://cdn.animaunity.com/qr/pet_max_thunder_001.png",
+      "profile_card": "https://cdn.animaunity.com/cards/pet_max_thunder_001.pdf",
+      "medical_summary": "https://cdn.animaunity.com/medical/pet_max_thunder_001.pdf"
+    },
+    "integrations": {
+      "gps_tracker": {
+        "device_id": "gps_tracker_001234",
+        "status": "active",
+        "last_location": {
+          "latitude": 34.0522,
+          "longitude": -118.2437,
+          "timestamp": "2024-01-15T14:25:00Z",
+          "accuracy": 5
+        }
+      },
+      "health_monitor": {
+        "device_id": "health_monitor_001234",
+        "status": "active",
+        "latest_vitals": {
+          "heart_rate": 72,
+          "activity_level": "moderate",
+          "temperature": 38.5,
+          "timestamp": "2024-01-15T14:20:00Z"
+        }
+      }
+    }
+  },
+  "analytics": {
+    "health_trends": "/v2/pets/pet_max_thunder_001/analytics/health",
+    "activity_patterns": "/v2/pets/pet_max_thunder_001/analytics/activity",
+    "behavior_insights": "/v2/pets/pet_max_thunder_001/analytics/behavior"
+  },
+  "recommendations": [
+    {
+      "type": "health_checkup",
+      "priority": "medium",
+      "message": "Annual vaccination due in 6 months",
+      "action_url": "/v2/appointments/schedule"
+    },
+    {
+      "type": "product_recommendation",
+      "priority": "low",
+      "message": "Premium food options for allergy management",
+      "action_url": "/v2/marketplace/products?category=food&filter=allergy_friendly"
+    }
+  ]
+}
+```
+
+### Advanced Marketplace System
+
+#### Multi-Vendor Product Management
+```http
+POST /v2/marketplace/products
+Content-Type: application/json
+Authorization: Bearer {token}
+
+{
+  "product": {
+    "name": "Premium Organic Dog Food - Salmon & Sweet Potato",
+    "description": "High-quality, grain-free dog food made with wild-caught salmon and organic sweet potatoes. Perfect for dogs with sensitive stomachs and allergies.",
+    "category": {
+      "primary": "pet_food",
+      "secondary": "dog_food",
+      "tertiary": "premium_organic"
+    },
+    "brand": {
+      "name": "Natural Paws",
+      "manufacturer_id": "brand_natural_paws_001"
+    },
+    "specifications": {
+      "ingredients": [
+        {
+          "name": "Wild Salmon",
+          "percentage": 35,
+          "type": "protein",
+          "organic": true
+        },
+        {
+          "name": "Sweet Potato",
+          "percentage": 20,
+          "type": "carbohydrate",
+          "organic": true
+        },
+        {
+          "name": "Peas",
+          "percentage": 15,
+          "type": "fiber",
+          "organic": true
+        }
+      ],
+      "nutritional_analysis": {
+        "protein": 28,
+        "fat": 15,
+        "fiber": 4,
+        "moisture": 10,
+        "calories_per_cup": 380
+      },
+      "certifications": ["USDA_Organic", "Non_GMO", "Grain_Free"],
+      "life_stage": ["adult", "senior"],
+      "breed_size": ["medium", "large"],
+      "special_diets": ["sensitive_stomach", "allergy_friendly"]
+    },
+    "variants": [
+      {
+        "id": "variant_5lb",
+        "size": "5 lbs",
+        "weight": 2.27,
+        "weight_unit": "kg",
+        "price": 29.99,
+        "compare_at_price": 34.99,
+        "sku": "NP-SF-SP-5LB-001",
+        "barcode": "1234567890123",
+        "inventory": {
+          "quantity": 150,
+          "warehouse_locations": ["warehouse_west_001", "warehouse_central_002"],
+          "reserved": 25,
+          "available": 125
+        }
+      },
+      {
+        "id": "variant_15lb",
+        "size": "15 lbs",
+        "weight": 6.80,
+        "weight_unit": "kg",
+        "price": 79.99,
+        "compare_at_price": 89.99,
+        "sku": "NP-SF-SP-15LB-001",
+        "barcode": "1234567890124",
+        "inventory": {
+          "quantity": 75,
+          "warehouse_locations": ["warehouse_west_001"],
+          "reserved": 10,
+          "available": 65
+        }
+      }
+    ],
+    "media": [
+      {
+        "type": "image",
+        "url": "https://cdn.animaunity.com/products/np-sf-sp-main.jpg",
+        "alt_text": "Premium Organic Dog Food package front view",
+        "position": 1,
+        "is_primary": true
+      },
+      {
+        "type": "image",
+        "url": "https://cdn.animaunity.com/products/np-sf-sp-ingredients.jpg",
+        "alt_text": "Ingredient list and nutritional information",
+        "position": 2
+      },
+      {
+        "type": "video",
+        "url": "https://cdn.animaunity.com/products/np-sf-sp-video.mp4",
+        "thumbnail": "https://cdn.animaunity.com/products/np-sf-sp-video-thumb.jpg",
+        "duration": 60,
+        "position": 3
+      }
+    ],
+    "shipping": {
+      "weight": 2.27,
+      "dimensions": {
+        "length": 30,
+        "width": 20,
+        "height": 10,
+        "unit": "cm"
+      },
+      "shipping_class": "standard",
+      "free_shipping_threshold": 50.00,
+      "handling_time": {
+        "min": 1,
+        "max": 2,
+        "unit": "business_days"
+      }
+    },
+    "vendor": {
+      "id": "vendor_natural_paws_store",
+      "name": "Natural Paws Official Store",
+      "verified": true,
+      "rating": 4.8,
+      "total_reviews": 2341
+    },
+    "seo": {
+      "meta_title": "Premium Organic Salmon Dog Food | Natural Paws | Anima Unity",
+      "meta_description": "Shop premium organic salmon and sweet potato dog food. Perfect for sensitive stomachs. Free shipping on orders over $50.",
+      "keywords": ["organic dog food", "salmon dog food", "grain free", "sensitive stomach"]
+    },
+    "compliance": {
+      "aafco_approved": true,
+      "fda_registered": true,
+      "country_of_origin": "USA",
+      "import_permits": []
+    }
+  },
+  "pricing_rules": [
+    {
+      "type": "bulk_discount",
+      "condition": "quantity >= 3",
+      "discount_percentage": 10
+    },
+    {
+      "type": "subscription_discount",
+      "condition": "recurring_order",
+      "discount_percentage": 15
+    }
+  ],
+  "marketing": {
+    "featured": true,
+    "promotional_badges": ["Organic", "Bestseller", "Vet Recommended"],
+    "launch_date": "2024-01-20T00:00:00Z",
+    "end_of_life_date": null
+  }
+}
+```
+
+### Veterinary Platform Integration
+
+#### Advanced Appointment Scheduling with AI Matching
+```http
+POST /v2/veterinary/appointments
+Content-Type: application/json
+Authorization: Bearer {token}
+
+{
+  "appointment": {
+    "pet_id": "pet_max_thunder_001",
+    "service_type": "comprehensive_health_exam",
+    "priority": "routine",
+    "preferred_datetime": "2024-01-25T14:00:00Z",
+    "alternative_times": [
+      "2024-01-25T16:00:00Z",
+      "2024-01-26T10:00:00Z",
+      "2024-01-26T14:00:00Z"
+    ],
+    "location_preference": {
+      "type": "in_person",
+      "clinic_id": "clinic_happy_paws_001",
+      "max_distance": 25,
+      "max_distance_unit": "km"
+    },
+    "veterinarian_preferences": {
+      "preferred_vet_id": "vet_dr_smith_001",
+      "specialization_required": ["general_practice"],
+      "language_preference": "english",
+      "gender_preference": null
+    },
+    "appointment_details": {
+      "reason_for_visit": "Annual checkup and vaccination updates",
+      "symptoms": [],
+      "urgency_level": "routine",
+      "estimated_duration": 45,
+      "requires_fasting": false,
+      "special_requirements": ["bring_vaccination_records"]
+    },
+    "insurance": {
+      "use_insurance": true,
+      "provider": "Healthy Paws Pet Insurance",
+      "policy_number": "HP-2024-001234",
+      "pre_authorization_required": false
+    },
+    "communication_preferences": {
+      "reminder_method": ["email", "sms"],
+      "reminder_timing": [24, 2], // hours before appointment
+      "follow_up_preferred": true
+    }
+  },
+  "options": {
+    "enable_ai_matching": true,
+    "auto_confirm_if_available": false,
+    "send_confirmation": true,
+    "create_calendar_event": true
+  }
+}
+```
+
+### Real-Time Event System
+
+#### WebSocket Connection for Live Updates
+```javascript
+// WebSocket connection setup
+const socket = new WebSocket('wss://events.animaunity.com/v2/events');
+
+// Authentication
+socket.onopen = function() {
+  socket.send(JSON.stringify({
+    type: 'authenticate',
+    token: 'your-jwt-token',
+    subscriptions: [
+      'pet.health_alerts',
+      'marketplace.order_updates',
+      'veterinary.appointment_changes',
+      'user.notifications'
+    ]
+  }));
+};
+
+// Event handling
+socket.onmessage = function(event) {
+  const data = JSON.parse(event.data);
+  
+  switch(data.type) {
+    case 'pet.health_alert':
+      handleHealthAlert(data.payload);
+      break;
+    case 'marketplace.order_status_changed':
+      updateOrderStatus(data.payload);
+      break;
+    case 'veterinary.appointment_confirmed':
+      showAppointmentConfirmation(data.payload);
+      break;
+  }
+};
+```
+
+#### Sample Real-Time Events
+```json
+{
+  "type": "pet.health_alert",
+  "timestamp": "2024-01-15T15:30:00Z",
+  "payload": {
+    "pet_id": "pet_max_thunder_001",
+    "alert_type": "vital_signs_abnormal",
+    "severity": "medium",
+    "message": "Heart rate elevated beyond normal range",
+    "current_value": 95,
+    "normal_range": "60-80",
+    "device_id": "health_monitor_001234",
+    "recommended_action": "monitor_closely",
+    "auto_vet_notification": false
+  }
+}
+```
+
+### Advanced Analytics & Insights
+
+#### Pet Health Analytics
+```http
+GET /v2/analytics/pets/pet_max_thunder_001/health-trends
+Authorization: Bearer {token}
+```
 
 ```json
 {
-  "access_token": "your-access-token",
-  "token_type": "bearer",
-  "expires_in": 3600
+  "analytics": {
+    "period": "last_6_months",
+    "data_points": 180,
+    "health_score_trend": {
+      "current": 87,
+      "previous": 82,
+      "change": 5,
+      "trend": "improving"
+    },
+    "vital_signs": {
+      "heart_rate": {
+        "average": 72,
+        "min": 65,
+        "max": 85,
+        "trend": "stable",
+        "alerts": 0
+      },
+      "activity_level": {
+        "daily_average": 8.5,
+        "unit": "hours",
+        "trend": "increasing",
+        "seasonal_variation": true
+      },
+      "weight_tracking": {
+        "current": 32.5,
+        "six_months_ago": 33.2,
+        "target_range": [30, 35],
+        "trend": "optimal"
+      }
+    },
+    "health_events": [
+      {
+        "date": "2023-12-15",
+        "type": "allergy_flare_up",
+        "severity": "mild",
+        "treatment": "medication_adjustment",
+        "resolved": true
+      }
+    ],
+    "predictions": {
+      "next_vaccination_due": "2024-07-15",
+      "health_risk_factors": [
+        {
+          "factor": "seasonal_allergies",
+          "probability": 0.65,
+          "season": "spring",
+          "recommended_prep": "Start allergy medication 2 weeks early"
+        }
+      ]
+    }
+  }
 }
 ```
 
-You can then include the access token in your API request headers:
+## Error Handling & Status Codes
 
-Authorization: Bearer your-access-token
-
-## Available Endpoints
-
-The API consists of several key endpoints organized by functionality, including user management, pet tracking, marketplace, and veterinary services.
-
-1. User Management
-
-Create User
-```bash
-POST /api/users
-Create a new user profile.
-```
-
-Request Body:
-
+### Comprehensive Error Response Structure
 ```json
 {
-  "username": "john_doe",
-  "email": "john.doe@example.com",
-  "password": "password123",
-  "role": "user"
+  "error": {
+    "code": "VALIDATION_FAILED",
+    "message": "The request failed validation",
+    "details": [
+      {
+        "field": "pet.breed.primary",
+        "code": "INVALID_BREED",
+        "message": "The specified breed is not recognized for this species"
+      },
+      {
+        "field": "pet.health_profile.weight.current",
+        "code": "OUT_OF_RANGE",
+        "message": "Weight must be between 0.1 and 200 kg"
+      }
+    ],
+    "request_id": "req_2024_001234567",
+    "timestamp": "2024-01-15T15:30:00Z",
+    "documentation_url": "https://docs.animaunity.com/errors/VALIDATION_FAILED"
+  }
 }
 ```
 
-Response:
+### HTTP Status Codes
+- **200 OK**: Success
+- **201 Created**: Resource created successfully
+- **202 Accepted**: Request accepted for processing
+- **400 Bad Request**: Invalid request syntax or parameters
+- **401 Unauthorized**: Authentication required
+- **403 Forbidden**: Access denied
+- **404 Not Found**: Resource not found
+- **409 Conflict**: Resource conflict (duplicate, etc.)
+- **422 Unprocessable Entity**: Validation failed
+- **429 Too Many Requests**: Rate limit exceeded
+- **500 Internal Server Error**: Server error
+- **502 Bad Gateway**: Upstream service error
+- **503 Service Unavailable**: Service temporarily unavailable
 
-```json
+## Advanced Features & Integrations
+
+### Webhook System
+```http
+POST /v2/webhooks
+Content-Type: application/json
+Authorization: Bearer {token}
+
 {
-  "id": "1234",
-  "username": "john_doe",
-  "email": "john.doe@example.com",
-  "role": "user"
+  "webhook": {
+    "url": "https://yourapp.com/webhooks/animaunity",
+    "events": [
+      "pet.health_alert",
+      "appointment.confirmed",
+      "order.status_changed",
+      "user.profile_updated"
+    ],
+    "secret": "whsec_your_webhook_secret",
+    "active": true,
+    "retry_policy": {
+      "max_attempts": 3,
+      "backoff_strategy": "exponential"
+    }
+  }
 }
 ```
 
-Get User Details
-```bash
-GET /api/users/{user_id}
-Retrieve details of a specific user by ID.
-```
+### Batch Operations
+```http
+POST /v2/batch
+Content-Type: application/json
+Authorization: Bearer {token}
 
-Update User
-```bash
-PUT /api/users/{user_id}
-Update user information such as email or password.
-```
-
-
-
----
-
-2. Pet Management
-
-Create Pet Profile
-```bash
-POST /api/pets
-Create a new pet profile for an animal.
-```
-
-Request Body:
-```json
 {
-  "name": "Max",
-  "species": "Dog",
-  "breed": "Labrador",
-  "age": 3,
-  "healthStatus": "Healthy",
-  "owner_id": "1234"
+  "operations": [
+    {
+      "method": "POST",
+      "path": "/v2/pets",
+      "body": { /* pet data */ }
+    },
+    {
+      "method": "PUT",
+      "path": "/v2/users/usr_001",
+      "body": { /* user update data */ }
+    },
+    {
+      "method": "GET",
+      "path": "/v2/marketplace/products?category=food"
+    }
+  ]
 }
 ```
 
-Response:
-```json
-{
-  "id": "5678",
-  "name": "Max",
-  "species": "Dog",
-  "breed": "Labrador",
-  "age": 3,
-  "healthStatus": "Healthy",
-  "owner_id": "1234"
-}
-```
-Get Pet Details
-```bash
-GET /api/pets/{pet_id}
-Retrieve detailed information about a specific pet.
-```
-
-
----
-
-3. Marketplace
-
-Create Product Listing
-```bash
-POST /api/products
-Add a new product to the marketplace.
-```
-
-Request Body:
-```
-{
-  "name": "Pet Food",
-  "category": "Food",
-  "price": 20.00,
-  "description": "High-quality pet food for dogs."
-}
-```
-Response:
-```json
-{
-  "id": "9876",
-  "name": "Pet Food",
-  "category": "Food",
-  "price": 20.00,
-  "description": "High-quality pet food for dogs."
-}
-```
-Get Product List
-```bash
-GET /api/products
-Fetch a list of all products available in the marketplace.
-```
-
-Get Product Details
-```bash
-GET /api/products/{product_id}
-Retrieve information about a specific product.
-```
-
-
-
----
-
-4. Veterinary Services
-
-Schedule Vet Appointment
-```bash
-POST /api/appointments
-Schedule an online veterinary appointment for a pet.
-```
-
-Request Body:
-```json
-{
-  "pet_id": "5678",
-  "vet_id": "4321",
-  "appointment_date": "2024-12-30T10:00:00Z"
-}
-```
-Response:
-```json
-{
-  "id": "1112",
-  "pet_id": "5678",
-  "vet_id": "4321",
-  "appointment_date": "2024-12-30T10:00:00Z",
-  "status": "Scheduled"
-}
-```
-Get Appointment Details
-```bash
-GET /api/appointments/{appointment_id}
-Retrieve details about a specific veterinary appointment.
-```
- 
-## Error Handling
-
-When making requests to the API, you may encounter different error statuses. Here are some common errors:
-
-<Callout type="error">
-  **400 Bad Request**: The request is malformed or missing required fields.
-</Callout>
-
-<Callout type="error">
-  **401 Unauthorized**: The access token is missing or invalid.
-</Callout>
-
-<Callout type="error">
-  **404 Not Found**: The requested resource could not be found.
-</Callout>
-
-<Callout type="error">
-  **500 Internal Server Error**: An unexpected error occurred on the server.
-</Callout>
-
-
-Example Error Response:
-```json
-{
-  "error": "Unauthorized",
-  "message": "The access token is missing or invalid."
+### GraphQL Alternative Endpoint
+```graphql
+query GetPetWithHealthData($petId: ID!) {
+  pet(id: $petId) {
+    id
+    name
+    species
+    breed {
+      primary
+      secondary
+    }
+    healthProfile {
+      overallStatus
+      chronicConditions
+      medications {
+        name
+        dosage
+        prescribedBy {
+          name
+          licenseNumber
+        }
+      }
+      vaccinationHistory {
+        vaccine
+        dateAdministered
+        nextDue
+      }
+    }
+    owner {
+      id
+      username
+      profile {
+        firstName
+        lastName
+      }
+    }
+    analytics {
+      healthScore
+      activityLevel
+      lastCheckup
+    }
+  }
 }
 ```
 
-## Rate Limiting
+## Performance & Optimization
 
-The API is rate-limited to ensure fair usage and prevent abuse. Requests exceeding the rate limit will result in a 429 Too Many Requests error.
+### Caching Strategy
+- **Response Caching**: 5-15 minutes for stable data
+- **CDN Integration**: Global content delivery
+- **Database Optimization**: Indexed queries and connection pooling
 
-The current rate limit is 1000 requests per hour.
+### Pagination & Filtering
+```http
+GET /v2/pets?page=2&limit=25&sort=created_at:desc&filter[species]=canine&filter[health_status]=healthy&include=owner,health_profile
+```
 
-After reaching the limit, you will need to wait before making further requests.
+### Data Compression
+- **Gzip Compression**: Automatic for responses > 1KB
+- **Image Optimization**: WebP format with fallbacks
+- **JSON Minification**: Reduced payload sizes
 
+## Security & Compliance
 
-## Conclusion
+### Data Protection
+- **Encryption**: AES-256 at rest, TLS 1.3 in transit
+- **PII Handling**: GDPR and CCPA compliant
+- **Data Retention**: Configurable retention policies
 
-The Anima Unity API provides extensive functionality for managing users, pets, marketplace products, and veterinary services. By using the authentication methods and endpoints outlined above, developers can integrate their applications with Anima Unity seamlessly.
+### Access Control
+- **Role-Based Access Control (RBAC)**
+- **Organization-level Permissions**
+- **API Key Scoping**
+- **IP Whitelisting** (Enterprise)
 
-For any additional information, or if you need help with specific endpoints, please check out the API Reference or contact our support team.
+### Compliance Standards
+- **SOC 2 Type II**
+- **ISO 27001**
+- **GDPR Compliant**
+- **HIPAA Ready** (Healthcare integrations)
 
-
----
-
-### Explanation:
-
-1. Authentication: It explains how to authenticate using OAuth 2.0, including how to obtain an access token that is used in every API request.
-
-
-2. Available Endpoints: It provides a list of endpoints that developers can use to manage users, pets, marketplace products, and veterinary services.
-
-
-3. Error Handling: It explains how the API handles errors and provides example error responses.
-
-
-4. Rate Limiting: It provides information about the limitation on the number of API requests to prevent abuse.
-
-
-This documentation gives developers a clear understanding of how to interact with the Anima Unity API, providing all the information needed to effectively use the various endpoints.
-
-
+This comprehensive API documentation provides developers with everything needed to build sophisticated integrations with the Anima Unity platform, from basic CRUD operations to advanced real-time features and enterprise-grade functionality.

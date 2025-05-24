@@ -104,11 +104,21 @@ const config: DocsThemeConfig = {
         <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png" />
         <link rel="manifest" href="/images/favicon/site.webmanifest" />
+        
+        {/*Font*/}
+        <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
+        <style>{`
+        body {
+          font-family: 'Inter', sans-serif;
+        }
+      `}</style>
 
         {/* Alternate Languages */}
         <link rel="alternate" href={url} hrefLang="x-default" />
         <link rel="alternate" href={url} hrefLang="en" />
         {/* Tambahkan bahasa lain jika ada */}
+        
+        
 
         {/* JSON-LD Schema */}
         <script

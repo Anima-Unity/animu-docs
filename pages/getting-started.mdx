@@ -1,12 +1,18 @@
 ---
-title: 'Getting Started with Anima Unity'
-description: 'Complete guide to start developing with Anima Unity platform'
+title: 'Getting Started with Anima Unity Microservices'
+description: 'Complete guide to start developing with Anima Unity - Microservices-based Digital Ecosystem for Animal Welfare, Rescue & Empowerment'
 keywords: 
+  - anima unity
+  - microservices
+  - animal welfare platform
   - getting started
   - setup guide
-  - installation
-  - development environment
-  - anima unity basics
+  - docker
+  - kubernetes
+  - service mesh
+  - animaid
+  - pet rescue platform
+  - animal digital identity
 ---
 
 import { Steps } from 'nextra/components'
@@ -15,206 +21,959 @@ import { Callout } from 'nextra/components'
 import { Cards, Card } from 'nextra/components'
 import { Table, Td, Th, Tr } from 'nextra/components'
 
-# Getting Started with Anima Unity
+# 🐾 Getting Started with Anima Unity Microservices
 
-Welcome to Anima Unity's developer documentation. This guide will help you set up your development environment and start building with our platform.
+Welcome to **Anima Unity** - Indonesia's first comprehensive microservices-based digital ecosystem for animal welfare, rescue, and empowerment. This developer guide will help you set up your microservices development environment and start building with our distributed platform.
 
-## Development Prerequisites
- 
+<Callout type="info">
+**"Tidak ada hewan yang dibiarkan tertinggal"** - No animal left behind. Our mission is to provide digital identity, access, protection, and care for every pet and wild animal through scalable microservices architecture, community collaboration, and compassionate technology.
+</Callout>
+
+## 🏗️ Microservices Architecture Overview
+
+Anima Unity is built on a microservices architecture with 7 core services that work together through well-defined APIs, message queues, and service mesh:
+
+<Cards>
+  <Card title="🆔 AnimaID Service" href="/services/animaid">
+    Digital identity microservice with QR codes and blockchain integration
+  </Card>
+  <Card title="📢 AnimaVoice Service" href="/services/animavoice">
+    Rescue reporting and volunteer coordination microservice
+  </Card>
+  <Card title="🏠 AdoptHub Service" href="/services/adopthub">
+    Adoption matching engine with ML-powered recommendations
+  </Card>
+  <Card title="💝 PawHelp Service" href="/services/pawhelp">
+    Donation and crowdfunding microservice with payment gateway
+  </Card>
+  <Card title="🏥 AnimaClinic Service" href="/services/animaclinic">
+    Telemedicine and health monitoring microservice
+  </Card>
+  <Card title="📍 AnimaTrack Service" href="/services/animatrack">
+    Real-time location tracking with IoT device integration
+  </Card>
+  <Card title="👥 Community Service" href="/services/community">
+    Social features, forums, and gamification microservice
+  </Card>
+</Cards>
+
+## 🔧 Core Infrastructure Services
+
 <Table>
   <thead>
     <Tr>
-      <Th>Stack</Th>
-      <Th>Language</Th>
-      <Th>Framework</Th>
+      <Th>Service</Th>
+      <Th>Purpose</Th>
+      <Th>Technology</Th>
+      <Th>Port</Th>
     </Tr>
   </thead>
   <tbody>
     <Tr>
-      <Td>Backend</Td>
-      <Td>TS, JS, Rust, Python</Td>
-      <Td>Express.js, Actix, FastAPI</Td>
+      <Td>API Gateway</Td>
+      <Td>Request routing, rate limiting, authentication</Td>
+      <Td>Kong, Traefik</Td>
+      <Td>8080</Td>
     </Tr>
     <Tr>
-      <Td>Frontend</Td>
-      <Td>TS, JS</Td>
-      <Td>Next.js, Nuxt.js</Td>
+      <Td>Service Discovery</Td>
+      <Td>Service registration and discovery</Td>
+      <Td>Consul, Eureka</Td>
+      <Td>8500</Td>
     </Tr>
     <Tr>
-      <Td>Mobile</Td>
-      <Td>Kotlin, Swift, Dart, JS</Td>
-      <Td>Compose, SwiftUI, Flutter, React Native, KMM</Td>
+      <Td>Message Broker</Td>
+      <Td>Async communication between services</Td>
+      <Td>RabbitMQ, Apache Kafka</Td>
+      <Td>5672, 9092</Td>
+    </Tr>
+    <Tr>
+      <Td>Configuration Server</Td>
+      <Td>Centralized configuration management</Td>
+      <Td>Spring Cloud Config</Td>
+      <Td>8888</Td>
+    </Tr>
+    <Tr>
+      <Td>Monitoring & Observability</Td>
+      <Td>Metrics, logging, tracing</Td>
+      <Td>Prometheus, Grafana, Jaeger</Td>
+      <Td>9090, 3000, 16686</Td>
     </Tr>
   </tbody>
 </Table>
 
-## Development Environment Setup
+## 🐳 Microservices Technology Stack
+
+<Table>
+  <thead>
+    <Tr>
+      <Th>Service</Th>
+      <Th>Language</Th>
+      <Th>Framework</Th>
+      <Th>Database</Th>
+      <Th>Purpose</Th>
+    </Tr>
+  </thead>
+  <tbody>
+    <Tr>
+      <Td>AnimaID Service</Td>
+      <Td>Java/Kotlin</Td>
+      <Td>Spring Boot</Td>
+      <Td>PostgreSQL</Td>
+      <Td>Digital identity & QR management</Td>
+    </Tr>
+    <Tr>
+      <Td>AnimaVoice Service</Td>
+      <Td>Node.js/TypeScript</Td>
+      <Td>NestJS</Td>
+      <Td>MongoDB</Td>
+      <Td>Rescue reporting & coordination</Td>
+    </Tr>
+    <Tr>
+      <Td>AdoptHub Service</Td>
+      <Td>Python</Td>
+      <Td>FastAPI</Td>
+      <Td>PostgreSQL</Td>
+      <Td>Adoption matching & ML</Td>
+    </Tr>
+    <Tr>
+      <Td>PawHelp Service</Td>
+      <Td>Java</Td>
+      <Td>Spring Boot</Td>
+      <Td>PostgreSQL</Td>
+      <Td>Payments & donations</Td>
+    </Tr>
+    <Tr>
+      <Td>AnimaClinic Service</Td>
+      <Td>Node.js/TypeScript</Td>
+      <Td>Express.js</Td>
+      <Td>MongoDB</Td>
+      <Td>Telemedicine & health records</Td>
+    </Tr>
+    <Tr>
+      <Td>AnimaTrack Service</Td>
+      <Td>Rust</Td>
+      <Td>Actix Web</Td>
+      <Td>Redis, InfluxDB</Td>
+      <Td>Real-time location tracking</Td>
+    </Tr>
+    <Tr>
+      <Td>Community Service</Td>
+      <Td>Go</Td>
+      <Td>Gin</Td>
+      <Td>PostgreSQL</Td>
+      <Td>Social features & forums</Td>
+    </Tr>
+  </tbody>
+</Table>
+
+## 🚀 Development Environment Setup
 
 <Steps>
-### Clone Repository
+### Prerequisites Installation
+
+Ensure you have the following tools installed:
 
 ```bash
-git clone https://github.com/anima-unity/platform.git
-cd platform
+# Container orchestration
+docker --version          # >= 24.0
+docker-compose --version  # >= 2.20
+
+# Kubernetes (optional for local development)
+kubectl version --client  # >= 1.28
+minikube version          # >= 1.31
+
+# Service mesh (optional)
+istioctl version          # >= 1.19
+
+# Development tools
+git --version             # >= 2.40
+node --version            # >= 18.0
+java --version            # >= 17
+python --version          # >= 3.9
+go version                # >= 1.21
+cargo --version           # >= 1.70
 ```
 
-### Install Dependencies
+### Clone Microservices Repository
 
-<Tabs items={['npm', 'yarn', 'pnpm']}>
+```bash
+git clone https://github.com/anima-unity/microservices-platform.git
+cd anima-unity-microservices
+```
+
+### Infrastructure Setup
+
+<Tabs items={['Docker Compose', 'Kubernetes', 'Local Services']}>
   <Tab>
     ```bash
-    npm install
+    # Start all infrastructure services
+    docker-compose -f docker-compose.infrastructure.yml up -d
+    
+    # Verify infrastructure health
+    docker-compose ps
+    
+    # View logs
+    docker-compose logs -f
+    ```
+    
+    Services started:
+    - **API Gateway** (Kong): `http://localhost:8080`
+    - **Service Discovery** (Consul): `http://localhost:8500`
+    - **Message Broker** (RabbitMQ): `http://localhost:15672`
+    - **Configuration Server**: `http://localhost:8888`
+    - **Monitoring** (Prometheus): `http://localhost:9090`
+    - **Observability** (Grafana): `http://localhost:3000`
+    - **Distributed Tracing** (Jaeger): `http://localhost:16686`
+  </Tab>
+  <Tab>
+    ```bash
+    # Start local Kubernetes cluster
+    minikube start --memory=8192 --cpus=4
+    
+    # Install Istio service mesh (optional)
+    istioctl install --set values.defaultRevision=default -y
+    kubectl label namespace default istio-injection=enabled
+    
+    # Deploy infrastructure
+    kubectl apply -f k8s/infrastructure/
+    
+    # Check deployment status
+    kubectl get pods -n anima-unity-system
     ```
   </Tab>
   <Tab>
     ```bash
-    yarn install
-    ```
-  </Tab>
-  <Tab>
-    ```bash
-    pnpm install
+    # Start services individually for development
+    
+    # PostgreSQL
+    docker run -d --name postgres \
+      -e POSTGRES_DB=anima_unity \
+      -e POSTGRES_USER=anima \
+      -e POSTGRES_PASSWORD=unity \
+      -p 5432:5432 postgres:15
+    
+    # MongoDB
+    docker run -d --name mongodb \
+      -p 27017:27017 mongo:7
+    
+    # Redis
+    docker run -d --name redis \
+      -p 6379:6379 redis:7-alpine
+    
+    # RabbitMQ
+    docker run -d --name rabbitmq \
+      -p 5672:5672 -p 15672:15672 \
+      rabbitmq:3-management
     ```
   </Tab>
 </Tabs>
 
-### Configure Environment
+### Service Configuration
 
-Create a `.env` file in the project root:
+Create environment configuration for each service:
 
 ```bash
-cp .env.example .env
+# Copy environment templates
+cp .env.example .env.local
+
+# Generate service-specific configurations
+./scripts/generate-service-configs.sh
 ```
 
-Required variables:
+### Start All Microservices
 
-```plaintext
-DATABASE_URL=postgresql://user:password@localhost:5432/anima
-API_KEY=your_api_key_here
-JWT_SECRET=your_jwt_secret
-REDIS_URL=redis://localhost:6379
-```
-
-### Start Development Server
-
-<Tabs items={['Local', 'Docker']}>
+<Tabs items={['Docker Compose', 'Individual Services', 'Kubernetes Deployment']}>
   <Tab>
     ```bash
-    npm run dev
+    # Start all microservices
+    docker-compose up --build -d
+    
+    # Check service health
+    curl http://localhost:8080/health
+    
+    # View service logs
+    docker-compose logs -f animaid-service
     ```
-    Access the application at `http://localhost:3000`
   </Tab>
   <Tab>
     ```bash
-    docker-compose up --build
+    # Start services individually in separate terminals
+    
+    # Terminal 1: AnimaID Service (Java/Spring Boot)
+    cd services/animaid-service
+    ./mvnw spring-boot:run
+    
+    # Terminal 2: AnimaVoice Service (Node.js/NestJS)
+    cd services/animavoice-service
+    npm run start:dev
+    
+    # Terminal 3: AdoptHub Service (Python/FastAPI)
+    cd services/adopthub-service
+    uvicorn main:app --reload --port 8003
+    
+    # Terminal 4: PawHelp Service (Java/Spring Boot)
+    cd services/pawhelp-service
+    ./mvnw spring-boot:run
+    
+    # Terminal 5: AnimaClinic Service (Node.js/Express)
+    cd services/animaclinic-service
+    npm run dev
+    
+    # Terminal 6: AnimaTrack Service (Rust/Actix)
+    cd services/animatrack-service
+    cargo run
+    
+    # Terminal 7: Community Service (Go/Gin)
+    cd services/community-service
+    go run main.go
     ```
-    Access the application at `http://localhost:8080`
+  </Tab>
+  <Tab>
+    ```bash
+    # Deploy to Kubernetes
+    kubectl apply -f k8s/services/
+    
+    # Check deployment status
+    kubectl get pods -n anima-unity
+    kubectl get services -n anima-unity
+    
+    # Port forward for local access
+    kubectl port-forward service/api-gateway 8080:80 -n anima-unity
+    ```
   </Tab>
 </Tabs>
 
 </Steps>
 
-## Project Structure
+## 📁 Microservices Project Structure
 
 ```plaintext
-anima-unity/
-├── apps/
-│   ├── web/                 # React frontend
-│   ├── api/                 # Node.js backend
-│   └── mobile/             # Mobile applications
-├── packages/
-│   ├── core/               # Shared business logic
-│   ├── ui/                 # Component library
-│   └── utils/              # Shared utilities
-├── docs/                   # Documentation
-├── scripts/               # Development scripts
-└── docker/                # Docker configurations
+anima-unity-microservices/
+├── services/
+│   ├── animaid-service/           # Digital identity service
+│   │   ├── src/main/java/         # Spring Boot application
+│   │   ├── src/main/resources/    # Configuration files
+│   │   ├── Dockerfile
+│   │   └── pom.xml
+│   ├── animavoice-service/        # Rescue reporting service
+│   │   ├── src/                   # NestJS application
+│   │   ├── Dockerfile
+│   │   └── package.json
+│   ├── adopthub-service/          # Adoption matching service
+│   │   ├── app/                   # FastAPI application
+│   │   ├── requirements.txt
+│   │   └── Dockerfile
+│   ├── pawhelp-service/           # Donation service
+│   │   ├── src/main/java/         # Spring Boot application
+│   │   ├── Dockerfile
+│   │   └── pom.xml
+│   ├── animaclinic-service/       # Health monitoring service
+│   │   ├── src/                   # Express.js application
+│   │   ├── Dockerfile
+│   │   └── package.json
+│   ├── animatrack-service/        # GPS tracking service
+│   │   ├── src/                   # Rust/Actix application
+│   │   ├── Cargo.toml
+│   │   └── Dockerfile
+│   └── community-service/         # Social features service
+│       ├── cmd/                   # Go application entry point
+│       ├── internal/              # Internal packages
+│       ├── go.mod
+│       └── Dockerfile
+├── infrastructure/
+│   ├── api-gateway/               # Kong/Traefik configuration
+│   ├── service-discovery/         # Consul configuration
+│   ├── message-broker/            # RabbitMQ/Kafka setup
+│   ├── monitoring/                # Prometheus & Grafana
+│   └── observability/             # Jaeger tracing setup
+├── k8s/
+│   ├── infrastructure/            # Kubernetes infrastructure manifests
+│   ├── services/                  # Service deployment manifests
+│   ├── ingress/                   # Ingress configurations
+│   └── secrets/                   # Secret management
+├── docker-compose.yml             # Local development setup
+├── docker-compose.infrastructure.yml
+├── scripts/
+│   ├── deploy.sh                  # Deployment scripts
+│   ├── health-check.sh            # Health monitoring
+│   └── generate-service-configs.sh
+├── docs/                          # Service documentation
+│   ├── api/                       # API documentation
+│   ├── architecture/              # Architecture diagrams
+│   └── deployment/                # Deployment guides
+└── shared/
+    ├── proto/                     # Protocol buffer definitions
+    ├── events/                    # Event schemas
+    └── libraries/                 # Shared libraries
 ```
 
-## Development Workflow
+## 🔌 Inter-Service Communication
 
-### Code Standards
+### API Gateway Configuration
 
-<Callout type="info">
-We follow strict coding standards to maintain consistency across the codebase.
-</Callout>
+```yaml
+# kong.yml - API Gateway routing configuration
+_format_version: "3.0"
+
+services:
+  - name: animaid-service
+    url: http://animaid-service:8001
+    routes:
+      - name: animaid-api
+        paths: ["/api/v1/animaid"]
+        strip_path: true
+
+  - name: animavoice-service
+    url: http://animavoice-service:8002
+    routes:
+      - name: rescue-api
+        paths: ["/api/v1/rescue"]
+        strip_path: true
+
+  - name: adopthub-service
+    url: http://adopthub-service:8003
+    routes:
+      - name: adoption-api
+        paths: ["/api/v1/adoption"]
+        strip_path: true
+
+plugins:
+  - name: rate-limiting
+    config:
+      minute: 100
+      hour: 1000
+  
+  - name: jwt
+    config:
+      secret_is_base64: false
+```
+
+### Message Queue Integration
+
+<Tabs items={['RabbitMQ Events', 'Kafka Topics', 'Event Schemas']}>
+  <Tab>
+    ```typescript
+    // Event publishing example (Node.js service)
+    import { EventPublisher } from '@anima-unity/messaging';
+
+    const publisher = new EventPublisher({
+      connection: 'amqp://localhost:5672',
+      exchange: 'anima.events'
+    });
+
+    // Publish animal registration event
+    await publisher.publish('animal.registered', {
+      animalId: 'animal_123',
+      ownerId: 'user_456',
+      species: 'dog',
+      timestamp: new Date(),
+      source: 'animaid-service'
+    });
+
+    // Publish rescue request event
+    await publisher.publish('rescue.requested', {
+      caseId: 'rescue_789',
+      location: { lat: -6.2088, lng: 106.8456 },
+      urgency: 'high',
+      reportedBy: 'user_123',
+      timestamp: new Date(),
+      source: 'animavoice-service'
+    });
+    ```
+  </Tab>
+  <Tab>
+    ```python
+    # Kafka producer example (Python service)
+    from kafka import KafkaProducer
+    import json
+
+    producer = KafkaProducer(
+        bootstrap_servers=['localhost:9092'],
+        value_serializer=lambda v: json.dumps(v).encode()
+    )
+
+    # Send adoption match event
+    adoption_event = {
+        'animal_id': 'animal_123',
+        'applicant_id': 'user_456',
+        'match_score': 0.95,
+        'timestamp': '2024-01-15T10:00:00Z',
+        'source': 'adopthub-service'
+    }
+
+    producer.send('adoption.matched', adoption_event)
+    producer.flush()
+    ```
+  </Tab>
+  <Tab>
+    ```protobuf
+    // events.proto - Event schema definitions
+    syntax = "proto3";
+
+    package anima.events;
+
+    message AnimalRegisteredEvent {
+      string animal_id = 1;
+      string owner_id = 2;
+      string species = 3;
+      string breed = 4;
+      int32 age = 5;
+      Location location = 6;
+      int64 timestamp = 7;
+      string source = 8;
+    }
+
+    message RescueRequestedEvent {
+      string case_id = 1;
+      Location location = 2;
+      string urgency = 3;
+      string description = 4;
+      string reported_by = 5;
+      repeated string photos = 6;
+      int64 timestamp = 7;
+      string source = 8;
+    }
+
+    message Location {
+      double latitude = 1;
+      double longitude = 2;
+      string address = 3;
+    }
+    ```
+  </Tab>
+</Tabs>
+
+### Service Discovery & Load Balancing
+
+```java
+// Java service registration example
+@RestController
+@EnableDiscoveryClient
+public class AnimaIDController {
+    
+    @Autowired
+    private DiscoveryClient discoveryClient;
+    
+    @GetMapping("/health")
+    public ResponseEntity<Map<String, String>> health() {
+        Map<String, String> status = new HashMap<>();
+        status.put("status", "UP");
+        status.put("service", "animaid-service");
+        status.put("timestamp", LocalDateTime.now().toString());
+        return ResponseEntity.ok(status);
+    }
+    
+    @GetMapping("/animals/{id}")
+    public ResponseEntity<Animal> getAnimal(@PathVariable String id) {
+        // Service logic here
+        return ResponseEntity.ok(animal);
+    }
+}
+```
+
+## 🔧 Development Workflow
+
+### Service Development
+
+<Tabs items={['Java/Spring Boot', 'Node.js/NestJS', 'Python/FastAPI', 'Rust/Actix', 'Go/Gin']}>
+  <Tab>
+    ```bash
+    # Java/Spring Boot service development
+    cd services/animaid-service
+    
+    # Run tests
+    ./mvnw test
+    
+    # Build application
+    ./mvnw clean package
+    
+    # Run locally
+    ./mvnw spring-boot:run
+    
+    # Build Docker image
+    docker build -t anima-unity/animaid-service .
+    ```
+  </Tab>
+  <Tab>
+    ```bash
+    # Node.js/NestJS service development
+    cd services/animavoice-service
+    
+    # Install dependencies
+    npm install
+    
+    # Run tests
+    npm run test
+    npm run test:e2e
+    
+    # Start development server
+    npm run start:dev
+    
+    # Build for production
+    npm run build
+    
+    # Build Docker image
+    docker build -t anima-unity/animavoice-service .
+    ```
+  </Tab>
+  <Tab>
+    ```bash
+    # Python/FastAPI service development
+    cd services/adopthub-service
+    
+    # Create virtual environment
+    python -m venv venv
+    source venv/bin/activate
+    
+    # Install dependencies
+    pip install -r requirements.txt
+    
+    # Run tests
+    pytest
+    
+    # Start development server
+    uvicorn app.main:app --reload --port 8003
+    
+    # Build Docker image
+    docker build -t anima-unity/adopthub-service .
+    ```
+  </Tab>
+  <Tab>
+    ```bash
+    # Rust/Actix service development
+    cd services/animatrack-service
+    
+    # Run tests
+    cargo test
+    
+    # Start development server
+    cargo run
+    
+    # Build for production
+    cargo build --release
+    
+    # Build Docker image
+    docker build -t anima-unity/animatrack-service .
+    ```
+  </Tab>
+  <Tab>
+    ```bash
+    # Go/Gin service development
+    cd services/community-service
+    
+    # Download dependencies
+    go mod download
+    
+    # Run tests
+    go test ./...
+    
+    # Start development server
+    go run cmd/main.go
+    
+    # Build for production
+    go build -o community-service cmd/main.go
+    
+    # Build Docker image
+    docker build -t anima-unity/community-service .
+    ```
+  </Tab>
+</Tabs>
+
+### Testing Strategy
 
 ```bash
-# Run linter
-npm run lint
+# Unit tests for individual services
+npm run test:unit
 
-# Run tests
-npm run test
+# Integration tests between services
+npm run test:integration
 
-# Build application
-npm run build
+# End-to-end tests for complete workflows
+npm run test:e2e
+
+# Contract testing for API compatibility
+npm run test:contract
+
+# Load testing for performance
+npm run test:load
+
+# Security testing
+npm run test:security
 ```
 
-### Branch Strategy
+### Monitoring & Observability
 
-- `main` - Production releases
-- `develop` - Development branch
-- `feature/*` - New features
-- `bugfix/*` - Bug fixes
-- `hotfix/*` - Production hotfixes
+<Tabs items={['Health Checks', 'Metrics', 'Distributed Tracing', 'Logging']}>
+  <Tab>
+    ```bash
+    # Check all service health endpoints
+    curl http://localhost:8080/api/v1/health
+    
+    # Individual service health checks
+    curl http://localhost:8001/health  # AnimaID
+    curl http://localhost:8002/health  # AnimaVoice
+    curl http://localhost:8003/health  # AdoptHub
+    curl http://localhost:8004/health  # PawHelp
+    curl http://localhost:8005/health  # AnimaClinic
+    curl http://localhost:8006/health  # AnimaTrack
+    curl http://localhost:8007/health  # Community
+    ```
+  </Tab>
+  <Tab>
+    ```yaml
+    # prometheus.yml - Metrics configuration
+    global:
+      scrape_interval: 15s
 
-### Commit Convention
+    scrape_configs:
+      - job_name: 'anima-unity-services'
+        static_configs:
+          - targets: 
+            - 'animaid-service:8001'
+            - 'animavoice-service:8002'
+            - 'adopthub-service:8003'
+            - 'pawhelp-service:8004'
+            - 'animaclinic-service:8005'
+            - 'animatrack-service:8006'
+            - 'community-service:8007'
+        metrics_path: '/actuator/prometheus'
+    ```
+  </Tab>
+  <Tab>
+    ```typescript
+    // Distributed tracing setup
+    import { trace } from '@opentelemetry/api';
+    import { JaegerExporter } from '@opentelemetry/exporter-jaeger';
 
-```bash
-type(scope): subject
+    const tracer = trace.getTracer('animavoice-service');
 
-# Types: feat, fix, docs, style, refactor, test, chore
-# Example: feat(auth): implement OAuth2 authentication
+    export async function reportRescueCase(caseData: RescueCase) {
+      const span = tracer.startSpan('report_rescue_case');
+      
+      try {
+        span.setAttributes({
+          'rescue.case_id': caseData.id,
+          'rescue.urgency': caseData.urgency,
+          'rescue.location': JSON.stringify(caseData.location)
+        });
+
+        // Business logic here
+        const result = await processRescueCase(caseData);
+        
+        span.setStatus({ code: trace.SpanStatusCode.OK });
+        return result;
+      } catch (error) {
+        span.recordException(error);
+        span.setStatus({ 
+          code: trace.SpanStatusCode.ERROR,
+          message: error.message 
+        });
+        throw error;
+      } finally {
+        span.end();
+      }
+    }
+    ```
+  </Tab>
+  <Tab>
+    ```json
+    {
+      "timestamp": "2024-01-15T10:00:00Z",
+      "level": "INFO",
+      "service": "animaid-service",
+      "traceId": "abc123",
+      "spanId": "def456",
+      "message": "Animal registered successfully",
+      "metadata": {
+        "animalId": "animal_123",
+        "ownerId": "user_456",
+        "species": "dog",
+        "operation": "register_animal"
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## 🚀 Deployment Strategies
+
+### Docker Compose Deployment
+
+```yaml
+# docker-compose.production.yml
+version: '3.8'
+
+services:
+  animaid-service:
+    image: anima-unity/animaid-service:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+      - DATABASE_URL=postgresql://postgres:5432/animaid_db
+    depends_on:
+      - postgres
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  animavoice-service:
+    image: anima-unity/animavoice-service:latest
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongodb:27017/animavoice_db
+    depends_on:
+      - mongodb
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Additional services...
 ```
 
-## API Integration
+### Kubernetes Deployment
 
-<Callout type="warning">
-Ensure you have valid API credentials before starting integration.
-</Callout>
-
-```typescript
-import { AnimaUnityClient } from '@anima-unity/sdk';
-
-const client = new AnimaUnityClient({
-  apiKey: process.env.API_KEY,
-  environment: 'development'
-});
-
-// Example API call
-const pets = await client.pets.list({
-  limit: 10,
-  offset: 0
-});
+```yaml
+# k8s/services/animaid-service.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: animaid-service
+  namespace: anima-unity
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: animaid-service
+  template:
+    metadata:
+      labels:
+        app: animaid-service
+    spec:
+      containers:
+      - name: animaid-service
+        image: anima-unity/animaid-service:latest
+        ports:
+        - containerPort: 8001
+        env:
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: database-secrets
+              key: animaid-db-url
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8001
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8001
+          initialDelaySeconds: 5
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: animaid-service
+  namespace: anima-unity
+spec:
+  selector:
+    app: animaid-service
+  ports:
+  - port: 8001
+    targetPort: 8001
+  type: ClusterIP
 ```
 
-## Troubleshooting
+## 🔒 Security Best Practices
 
-Common issues and solutions:
+### Service-to-Service Authentication
 
-<Callout emoji="⚠️">
-  **Database Connection Issues**
-  
-  If you cannot connect to the database, verify:
-  1. PostgreSQL is running
-  2. Database credentials are correct
-  3. Database exists and is accessible
-</Callout>
+```yaml
+# JWT configuration for inter-service communication
+security:
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: 3600
+    issuer: anima-unity-platform
+    
+# Service mesh mutual TLS
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: anima-unity
+spec:
+  mtls:
+    mode: STRICT
+```
 
-<Callout emoji="🔧">
-  **Build Failures**
-  
-  If the build fails:
-  1. Clear node_modules and reinstall
-  2. Verify Node.js version
-  3. Check for conflicting dependencies
-</Callout>
+### API Rate Limiting & Protection
 
-## Additional Resources
+```yaml
+# Kong rate limiting plugin
+plugins:
+- name: rate-limiting
+  config:
+    minute: 100
+    hour: 1000
+    policy: cluster
+    fault_tolerant: true
+
+- name: request-size-limiting
+  config:
+    allowed_payload_size: 10
+
+- name: cors
+  config:
+    origins: ["https://anima-unity.com"]
+    methods: ["GET", "POST", "PUT", "DELETE"]
+    headers: ["Authorization", "Content-Type"]
+```
+
+## 📚 Service-Specific Documentation
 
 <Cards>
-  <Card title="API Reference" href="/api-reference" arrow/>
-  <Card title="Component Library" href="/components" arrow/>
-  <Card title="Architecture Guide" href="/architecture" arrow/>
-  <Card title="Best Practices" href="/best-practices" arrow/>
+  <Card title="🆔 AnimaID Service API" href="/services/animaid/api" arrow>
+    Digital identity microservice endpoints
+  </Card>
+  <Card title="📢 AnimaVoice Service API" href="/services/animavoice/api" arrow>
+    Rescue reporting service endpoints
+  </Card>
+  <Card title="🏠 AdoptHub Service API" href="/services/adopthub/api" arrow>
+    Adoption matching service endpoints
+  </Card>
+  <Card title="💝 PawHelp Service API" href="/services/pawhelp/api" arrow>
+    Donation service endpoints
+  </Card>
+  <Card title="🏥 AnimaClinic Service API" href="/services/animaclinic/api" arrow>
+    Health monitoring service endpoints
+  </Card>
+  <Card title="📍 AnimaTrack Service API" href="/services/animatrack/api" arrow>
+    GPS tracking service endpoints
+  </Card>
+  <Card title="👥 Community Service API" href="/services/community/api" arrow>
+    Social features service endpoints
+  </Card>
+  <Card title="🏗️ Infrastructure Guide" href="/infrastructure" arrow>
+    Service mesh, monitoring, and deployment
+  </Card>
 </Cards>
+
+---
+
+<Callout type="success">
+**Ready to Build Microservices?**
+
+You're now ready to start developing with Anima Unity's microservices architecture! Each service is independently deployable, scalable, and maintainable while working together to serve our mission: "Tidak ada hewan yang dibiarkan tertinggal" - No animal left behind.
+
+Your microservices will contribute to a resilient, scalable platform that can grow with the needs of animal welfare organizations worldwide.
+</Callout>
